@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="The Lib" uuid="c1fed87e-b96e-43d8-8059-7cff39413334">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://cs4750.cs.virginia.edu:3306/osa2qx_project</jdbc-url>
+    </data-source>
+  </component>
+</project>
