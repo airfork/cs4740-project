@@ -11,7 +11,7 @@ class Librarians extends CI_Controller {
     }
 
     public function register() {
-        $this->validateLib();
+        $this->validate_lib();
         $data['csrf'] = array(
             'name' => $this->security->get_csrf_token_name(),
             'hash' => $this->security->get_csrf_hash()
@@ -20,7 +20,7 @@ class Librarians extends CI_Controller {
     }
 
     public function create() {
-        $this->validateLib();
+        $this->validate_lib();
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->load->library('encryption');
@@ -53,14 +53,14 @@ class Librarians extends CI_Controller {
         $this->email->from($this->config->item('smtp_user'), "Tunji Afolabi-Brown");
         $this->email->to($email);
         $this->email->subject('THE Library Account Info');
-        $this->email->message('An account has been created for you. Your email is '. $email.' and your password is '.$this->randomPassword());
+        $this->email->message('An account has been created for you. Your email is '. $email.' and your password is '.$this->random_password());
         $this->email->set_newline("\r\n");
         if (!$this->email->send()) {
             show_error($this->email->print_debugger());
         }
     }
 
-    private function randomPassword() {
+    private function random_password() {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -77,7 +77,7 @@ class Librarians extends CI_Controller {
         }
     }
 
-    private function validateLib() {
+    private function validate_lib() {
         $this->validate();
         if (empty($_SESSION['lib'])) {
             redirect('/', 'refresh');
