@@ -7,6 +7,7 @@ class Librarians extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('librarian_model');
         $this->load->helper('url_helper');
+        $this->load->library('email');
     }
 
     public function register() {
@@ -42,8 +43,32 @@ class Librarians extends CI_Controller {
             $this->load->view('librarians/register', $data);
         } else {
             $_SESSION['id'] = $this->encryption->encrypt($this->user_model->create());
+            $this->email_password($this->input->post('email'));
             redirect('/', 'refresh');
         }
+    }
+
+    private function email_password($email) {
+        $this->load->config('email');
+        $this->email->from($this->config->item('smtp_user'), "Tunji Afolabi-Brown");
+        $this->email->to($email);
+        $this->email->subject('THE Library Account Info');
+        $this->email->message('An account has been created for you. Your email is '. $email.' and your password is '.$this->randomPassword());
+        $this->email->set_newline("\r\n");
+        if (!$this->email->send()) {
+            show_error($this->email->print_debugger());
+        }
+    }
+
+    private function randomPassword() {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
     }
 
     private function validate() {
