@@ -16,7 +16,7 @@
     <a href="<?php echo site_url('/login'); ?>">Login</a>
     <a href="<?php echo site_url('/register'); ?>">Register</a>
     <a href="<?php echo site_url('/books'); ?>">Book List</a>
-    <a href="<?php echo site_url('/books/search'); ?>">Book Search</a>
+    <a href="<?php echo site_url('/search'); ?>">Book Search</a>
     <a href="<?php echo site_url('/logout'); ?>">Logout</a>
 </body>
 </html>

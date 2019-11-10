@@ -51,7 +51,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'users/main_page';
 $route['books']['GET'] = 'books/view_all';
-$route['books/search']['GET'] = 'books/search_page';
+$route['checkout']['POST'] = 'books/checkout';
+$route['search']['GET'] = 'users/search_page';
+$route['search']['POST'] = 'users/search';
 $route['login']['GET'] = 'users/index';
 $route['login']['POST'] = 'users/login';
 $route['logout']['GET'] = 'users/logout';

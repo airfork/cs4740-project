@@ -5,6 +5,7 @@ class Users extends CI_Controller {
         parent::__construct();
         $this->load->library('session');
         $this->load->model('user_model');
+        $this->load->model('book_model');
         $this->load->helper('url_helper');
     }
 
@@ -72,6 +73,44 @@ class Users extends CI_Controller {
         }
     }
 
+    public function search_page() {
+        $data['csrf'] = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
+        $this->load->view('users/search', $data);
+    }
+
+    public function search() {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->form_validation->set_message('check_type', 'Please provide a valid type for the search');
+        $this->form_validation->set_rules(
+            'type', 'type', 'required|callback_check_type',
+            array('check_type', 'Please provide a valid type for the search.')
+        );
+        $this->form_validation->set_rules('search', 'search term', 'trim|required|min_length[2]|max_length[100]');
+        if ($this->form_validation->run() === FALSE) {
+            $data['csrf'] = array(
+                'name' => $this->security->get_csrf_token_name(),
+                'hash' => $this->security->get_csrf_hash()
+            );
+            $this->load->view('users/search', $data);
+        } else {
+            switch ($this->input->post('type')) {
+                case 'books':
+                    $books = $this->book_model->get_books($this->sanitize($this->input->post('search')));
+                    $data['csrf'] = array(
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    );
+                    $data['books'] = $books;
+                    $this->load->view('users/search', $data);
+                    break;
+            }
+        }
+    }
+
     public function logout() {
         session_unset();
         session_destroy();
@@ -88,6 +127,14 @@ class Users extends CI_Controller {
             return FALSE;
         }
         return TRUE;
+    }
+
+    public function check_type(): bool {
+        $type = $this->sanitize($this->input->post('type'));
+        if ($type === 'books' || $type === 'movies' || $type === 'articles') {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     private function sanitize($data) {

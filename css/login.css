@@ -1,6 +1,12 @@
 /* This login form was taken and very slightly modified from
 https://codepen.io/miroot/pen/qwIgC
 Thanks very much! */
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 section {
     height: 100vh;
 }
