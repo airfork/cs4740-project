@@ -7,7 +7,10 @@ class Article_model extends CI_Model {
 
     public function get($slug=false) {
         $search = '%'.$slug.'%';
-        $sql = "SELECT title, ajauthor, pubDate FROM articles_journals WHERE title LIKE ?";
+        $sql = "SELECT aj.title, aj.ajauthor, aj.pubDate, 
+                (SELECT count(title) FROM article_journal_checkout WHERE ajauthor = aj.ajauthor AND title = aj.title AND pubDate = aj.pubDate AND return_date IS NULL) 
+                    AS checked_out 
+                FROM articles_journals aj WHERE aj.title LIKE ?";
         $query = $this->db->query($sql, array($search));
         return $query->result_array();
     }

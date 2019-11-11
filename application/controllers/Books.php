@@ -9,11 +9,6 @@ class Books extends CI_Controller {
         $this->load->library('encryption');
     }
 
-    public function view_all() {
-        $data['books'] = $this->book_model->get_books();
-        $this->load->view('books/index', $data);
-    }
-
     public function checkout() {
         if (!$this->validate()) {
             header('Content-Type: application/json');

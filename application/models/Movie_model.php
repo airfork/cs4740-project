@@ -7,7 +7,9 @@ class Movie_model extends CI_Model {
 
     public function get($slug=false) {
         $search = '%'.$slug.'%';
-        $sql = "SELECT director, title, releaseDate FROM movies WHERE title LIKE ?";
+        $sql = "SELECT m.director, m.title, m.releaseDate,
+                (SELECT count(title) FROM movie_checkout WHERE title = m.title AND director = m.director AND return_date IS NULL) AS checked_out
+                FROM movies m WHERE m.title LIKE ?";
         $query = $this->db->query($sql, array($search));
         return $query->result_array();
     }

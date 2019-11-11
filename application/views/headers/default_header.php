@@ -16,8 +16,19 @@
 <nav id="nav">
     <div class="nav-wrapper">
         <ul id="nav-mobile" class="right">
-            <li><a href="<?php echo base_url() ?>">Home</a></li>
-            <li><a href="#">Logout</a></li>
+            <?php if (empty($homepage)) { ?>
+                <li><a href="<?php echo base_url() ?>">Home</a></li>
+            <?php } ?>
+            <?php if (empty($searchpage)) { ?>
+                <li><a href="<?php echo site_url('/search'); ?>">Search</a><li>
+            <?php } ?>
+            <?php if (!$logged_in) { ?>
+                <li><a href="<?php echo site_url('/login'); ?>">Login</a></li>
+                <li><a href="<?php echo site_url('/register'); ?>">Register</a><li>
+            <?php } ?>
+            <?php if ($logged_in) { ?>
+                <li><a href="<?php echo site_url('/logout'); ?>">Logout</a></li>
+            <?php } ?>
         </ul>
     </div>
 </nav>

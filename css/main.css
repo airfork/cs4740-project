@@ -1,13 +1,11 @@
 html, body {
     background-color: #D7BCE8;
     color: #5D576B;
-;
 }
 
-/*.container {*/
-/*    background-color: white;*/
-/*    padding: 1rem;*/
-/*}*/
+.search-list {
+    cursor: pointer;
+}
 
 #nav {
     background-color: #D7BCE8;
@@ -46,4 +44,9 @@ html, body {
 #search-btn {
     background-color: #8884FF;
     color: #5D576B;
+}
+
+.checkedOut {
+    background-color: rgba(242,242,242,0.5);
+    cursor: not-allowed;
 }

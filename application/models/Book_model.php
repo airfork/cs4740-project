@@ -5,15 +5,11 @@ class Book_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get_books($slug=false) {
-        if ($slug == false) {
-            // language=sql
-            $sql = "SELECT isbn, title, author FROM books ORDER BY title ASC";
-            $query = $this->db->query($sql);
-            return $query->result_array();
-        }
+    public function get_books($slug) {
         $search = '%'.$slug.'%';
-        $sql = "SELECT isbn, title, author FROM books WHERE title LIKE ?";
+        $sql = "SELECT b.isbn, b.title, b.author, 
+                (SELECT count(student_id) FROM book_checkout WHERE book_id = b.isbn AND return_date IS NULL) AS checked_out
+                FROM books b WHERE b.title LIKE ?";
         $query = $this->db->query($sql, array($search));
         return $query->result_array();
     }

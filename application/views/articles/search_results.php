@@ -11,7 +11,17 @@ if (!empty($articles)) { ?>
         </thead>
         <tbody>
         <?php foreach ($articles as $article): ?>
-            <tr onclick="articleCheckout('<?php echo $article['title']; ?>', '<?php echo $article['ajauthor']; ?>', '<?php echo $article['pubDate']; ?>')">
+            <?php
+            $checked_out = false;
+            if($article['checked_out'] != 0) {
+                $checked_out = true;
+            }
+            if ($checked_out) {
+                echo '<tr class="search-list checkedOut" onclick="checkedOut(\'article/journal\')">';
+            } else {
+                echo "<tr class=\"search-list\" onclick=\"articleCheckout('{$article['title']}', '{$article['ajauthor']}', '{$article['pubDate']}')\">";
+            }
+            ?>
                 <td>
                     <?php echo $article['title']; ?>
                 </td>

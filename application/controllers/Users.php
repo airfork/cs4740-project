@@ -21,10 +21,13 @@ class Users extends CI_Controller {
     }
 
     public function main_page() {
-        $this->load->view('index');
+        $data['logged_in'] = $this->is_signed_in();
+        $data['homepage'] = true;
+        $this->load->view('index', $data);
     }
 
     public function register() {
+        $this->signed_in();
         $data['csrf'] = array(
             'name' => $this->security->get_csrf_token_name(),
             'hash' => $this->security->get_csrf_hash()
@@ -80,6 +83,8 @@ class Users extends CI_Controller {
             'name' => $this->security->get_csrf_token_name(),
             'hash' => $this->security->get_csrf_hash()
         );
+        $data['logged_in'] = $this->is_signed_in();
+        $data['searchpage'] = true;
         $this->load->view('users/search', $data);
     }
 
@@ -107,6 +112,7 @@ class Users extends CI_Controller {
                         'hash' => $this->security->get_csrf_hash()
                     );
                     $data['books'] = $books;
+                    $data['logged_in'] = $this->is_signed_in();
                     $this->load->view('users/search', $data);
                     break;
                 case 'movies':
@@ -117,6 +123,7 @@ class Users extends CI_Controller {
                     );
                     $data['movies'] = $movies;
                     $data['type'] = 'movies';
+                    $data['logged_in'] = $this->is_signed_in();
                     $this->load->view('users/search', $data);
                     break;
                 case 'articles':
@@ -127,6 +134,7 @@ class Users extends CI_Controller {
                     );
                     $data['articles'] = $articles;
                     $data['type'] = 'articles';
+                    $data['logged_in'] = $this->is_signed_in();
                     $this->load->view('users/search', $data);
                     break;
             }
@@ -157,6 +165,13 @@ class Users extends CI_Controller {
             return TRUE;
         }
         return FALSE;
+    }
+
+    private function is_signed_in() : bool {
+        if (empty($_SESSION['id'])) {
+            return false;
+        }
+        return true;
     }
 
     private function sanitize($data) {

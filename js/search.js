@@ -33,6 +33,12 @@ function articleCheckout(title, author, pubDate) {
     }
 }
 
+function checkedOut(type) {
+    M.toast({
+        html: `This ${type} has already been checked out`
+    });
+}
+
 function checkout(route, form) {
     let request = new XMLHttpRequest();
     request.open('POST', url + route, true);

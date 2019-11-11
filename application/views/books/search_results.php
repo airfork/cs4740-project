@@ -4,17 +4,23 @@ if (!empty($books)) { ?>
     <table>
         <thead>
         <tr>
-            <th>ISBN</th>
             <th>Title</th>
             <th>Author</th>
         </tr>
         </thead>
         <tbody>
         <?php foreach ($books as $book): ?>
-            <tr onclick="bookCheckout(<?php echo $book['isbn']; ?>)">
-                <td>
-                    <?php echo $book['isbn']; ?>
-                </td>
+            <?php
+            $checked_out = false;
+            if($book['checked_out'] != 0) {
+                $checked_out = true;
+            }
+            if ($checked_out) {
+                echo '<tr class="search-list checkedOut" onclick="checkedOut(\'book\')">';
+            } else {
+                echo "<tr class=\"search-list\" onclick=\"bookCheckout('{$book['isbn']}')\">";
+            }
+            ?>
                 <td>
                     <?php echo $book['title']; ?>
                 </td>
