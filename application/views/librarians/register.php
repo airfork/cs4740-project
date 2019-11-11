@@ -7,7 +7,7 @@
     ?>
 
     <section class="align">
-        <h2>Register</h2>
+        <h3>Register</h3>
         <div class="grid">
 
             <form action="<?php echo $url;?>" method="POST" class="form login">

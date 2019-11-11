@@ -15,6 +15,11 @@ class Movies extends CI_Controller {
             echo json_encode(array('issue' => 'You need to be signed in to checkout a movie', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
             return;
         }
+        if ($this->validate_lib()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You cannot checkout items as a Librarian', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
         $title = $this->input->post('title');
         $director = $this->input->post('director');
         $checked_out = $this->movie_model->checked_out($title, $director);
@@ -37,6 +42,14 @@ class Movies extends CI_Controller {
 
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
+            return false;
+        }
+        return true;
+    }
+
+    // Returns true if user is librarian
+    private function validate_lib() {
+        if (empty($_SESSION['lib'])) {
             return false;
         }
         return true;
