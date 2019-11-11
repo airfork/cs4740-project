@@ -6,6 +6,8 @@ class Users extends CI_Controller {
         $this->load->library('session');
         $this->load->model('user_model');
         $this->load->model('book_model');
+        $this->load->model('movie_model');
+        $this->load->model('article_model');
         $this->load->helper('url_helper');
     }
 
@@ -105,6 +107,26 @@ class Users extends CI_Controller {
                         'hash' => $this->security->get_csrf_hash()
                     );
                     $data['books'] = $books;
+                    $this->load->view('users/search', $data);
+                    break;
+                case 'movies':
+                    $movies = $this->movie_model->get($this->sanitize($this->input->post('search')));
+                    $data['csrf'] = array(
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    );
+                    $data['movies'] = $movies;
+                    $data['type'] = 'movies';
+                    $this->load->view('users/search', $data);
+                    break;
+                case 'articles':
+                    $articles = $this->article_model->get($this->sanitize($this->input->post('search')));
+                    $data['csrf'] = array(
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    );
+                    $data['articles'] = $articles;
+                    $data['type'] = 'articles';
                     $this->load->view('users/search', $data);
                     break;
             }

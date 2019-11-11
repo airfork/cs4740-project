@@ -20,14 +20,14 @@ class Book_model extends CI_Model {
 
     public function checkout_count($id) {
         // language=sql
-        $sql = "SELECT count(student_id) AS count FROM book_checkout WHERE student_id = ?";
+        $sql = "SELECT count(student_id) AS count FROM book_checkout WHERE student_id = ? AND return_date IS NULL";
         $query = $this->db->query($sql, array($id));
         return $query->row_array();
     }
 
     public function checked_out($isbn) {
         // language=sql
-        $sql = "SELECT count(book_id) AS count FROM book_checkout WHERE book_id = ?";
+        $sql = "SELECT count(book_id) AS count FROM book_checkout WHERE book_id = ? AND return_date IS NULL";
         $query = $this->db->query($sql, array($isbn));
         return $query->row_array();
     }

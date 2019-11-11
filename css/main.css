@@ -1,0 +1,49 @@
+html, body {
+    background-color: #D7BCE8;
+    color: #5D576B;
+;
+}
+
+/*.container {*/
+/*    background-color: white;*/
+/*    padding: 1rem;*/
+/*}*/
+
+#nav {
+    background-color: #D7BCE8;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-right: 1.5%;
+}
+
+#nav ul a {
+    color: #5D576B;
+}
+
+/* label color */
+.input-field label, textarea.materialize-textarea:focus:not([readonly])+label {
+    color: #8884FF !important;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label, .input-field input[type=number]:focus + label, .input-field input[type=email]:focus + label {
+    color: #8884FF !important;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus, textarea.materialize-textarea:focus, .input-field input[type=number]:focus, .input-field input[type=email]:focus {
+    border-bottom: 1px solid #ff94c2 !important;
+    -webkit-box-shadow: 0 1px 0 0 #ff94c2 !important;
+    box-shadow: 0 1px 0 0 #ff94c2 !important;
+}
+
+.input-field input[type=text], textarea.materialize-textarea, .input-field input[type=number], .input-field input[type=email] {
+    border-bottom: 1px solid #8884FF !important;
+}
+
+.dropdown-content li>span {
+    color: #8884FF !important;
+}
+
+#search-btn {
+    background-color: #8884FF;
+    color: #5D576B;
+}

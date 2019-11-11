@@ -1,13 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'css/login.css'; ?>">
-    <title>THE Library</title>
-</head>
+<?php $this->view('headers/login_header') ?>
 <body>
     <?php
     $this->load->helper('form');
