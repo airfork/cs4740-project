@@ -26,15 +26,6 @@ class Users extends CI_Controller {
         $this->load->view('index', $data);
     }
 
-    public function register() {
-        $this->signed_in();
-        $data['csrf'] = array(
-            'name' => $this->security->get_csrf_token_name(),
-            'hash' => $this->security->get_csrf_hash()
-        );
-        $this->load->view('users/register', $data);
-    }
-
     public function login() {
         $this->signed_in();
         $this->load->library('form_validation');
@@ -47,33 +38,6 @@ class Users extends CI_Controller {
             );
             $this->load->view('users/login', $data);
         } else {
-            redirect('/', 'refresh');
-        }
-    }
-
-    public function create() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->load->library('encryption');
-        $this->form_validation->set_rules(
-            'email', 'email',
-            'required|is_unique[students.email]',
-            array(
-                'required'      => 'You have not provided a %s.',
-                'is_unique'     => 'This %s already exists.'
-            )
-        );
-        $this->form_validation->set_rules('name', 'name', 'required|min_length[3]|max_length[100]');
-        $this->form_validation->set_rules('password', 'password', 'required|min_length[8]');
-        $this->form_validation->set_rules('passconf', 'password confirmation', 'required|matches[password]');
-        if ($this->form_validation->run() === FALSE) {
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $this->load->view('users/register', $data);
-        } else {
-            $_SESSION['id'] = $this->encryption->encrypt($this->user_model->create());
             redirect('/', 'refresh');
         }
     }
