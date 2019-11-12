@@ -1,6 +1,6 @@
 <?php
 
-class Study_Spaces_model extends CI_Model {
+class Studyspaces_model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
