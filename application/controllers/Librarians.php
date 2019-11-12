@@ -33,8 +33,6 @@ class Librarians extends CI_Controller {
             )
         );
         $this->form_validation->set_rules('name', 'name', 'required|min_length[3]|max_length[100]');
-        $this->form_validation->set_rules('password', 'password', 'required|min_length[8]');
-        $this->form_validation->set_rules('passconf', 'password confirmation', 'required|matches[password]');
         if ($this->form_validation->run() === FALSE) {
             $data['csrf'] = array(
                 'name' => $this->security->get_csrf_token_name(),
@@ -42,18 +40,19 @@ class Librarians extends CI_Controller {
             );
             $this->load->view('librarians/register', $data);
         } else {
-            $_SESSION['id'] = $this->encryption->encrypt($this->user_model->create());
-            $this->email_password($this->input->post('email'));
+            $password = $this->random_password();
+            $_SESSION['id'] = $this->encryption->encrypt($this->user_model->create($password));
+            $this->email_password($this->input->post('email'), $password);
             redirect('/', 'refresh');
         }
     }
 
-    private function email_password($email) {
+    private function email_password($email, $password) {
         $this->load->config('email');
         $this->email->from($this->config->item('smtp_user'), "Tunji Afolabi-Brown");
         $this->email->to($email);
         $this->email->subject('THE Library Account Info');
-        $this->email->message('An account has been created for you. Your email is '. $email.' and your password is '.$this->random_password());
+        $this->email->message('An account has been created for you. Your email is '. $email.' and your password is '.$password);
         $this->email->set_newline("\r\n");
         if (!$this->email->send()) {
             show_error($this->email->print_debugger());
