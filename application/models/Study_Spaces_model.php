@@ -26,12 +26,12 @@ class Study_Spaces_model extends CI_Model {
         return $query->row_array();
     }
 
-    public function checkout($stid, $spid) {
+    public function checkout($student_id, $space_id) {
         // language=sql
         $startTime = date("Y-m-d H:i:s");
         $reserved_until = date('Y-m-d H:i:s',strtotime('+2 hour',strtotime($startTime)));
 
-        $sql = "INSERT INTO movie_checkout (student_id, title, director) VALUES (?, ?, ?)";
-        $this->db->query($sql, array($stid, $spid, $reserved_until));
+        $sql = "INSERT INTO movie_checkout (student_id, space_id, reservedUntil) VALUES (?, ?, ?)";
+        $this->db->query($sql, array($student_id, $space_id, $reserved_until));
     }
 }
