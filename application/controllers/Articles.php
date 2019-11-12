@@ -9,6 +9,7 @@ class Articles extends CI_Controller {
         $this->load->library('encryption');
     }
 
+    // Checkout article
     public function checkout() {
         if (!$this->validate()) {
             header('Content-Type: application/json');
