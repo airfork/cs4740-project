@@ -1,9 +1,9 @@
 <?php
 
-class Books extends CI_Controller {
+class Studyspaces extends CI_Controller {
     public function __construct() {
         parent::__construct();
-        $this->load->model('study_spaces_model');
+        $this->load->model('studyspaces_model');
         $this->load->helper('url_helper');
         $this->load->library('session');
         $this->load->library('encryption');
