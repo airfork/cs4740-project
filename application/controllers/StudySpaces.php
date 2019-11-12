@@ -16,14 +16,14 @@ class Studyspaces extends CI_Controller {
             return;
         }
         $space_id = $this->input->post('study_spaces');
-        $already_reserved = $this->study_spaces_model->already_booked($space_id);
+        $already_reserved = $this->studyspaces_model->already_booked($space_id);
         if ($already_reserved['count'] >= 1) {
             header('Content-Type: application/json');
             echo json_encode(array('issue' => 'This study space has already been reserved', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
             return;
         }
         $id = $this->encryption->decrypt($_SESSION['id']);
-        $checkoutCount = $this->book_model->booking_count($id);
+        $checkoutCount = $this->studyspaces_model->booking_count($id);
         if ($checkoutCount['count'] >= 1) {
             header('Content-Type: application/json');
             echo json_encode(array('issue' => 'You cannot reserve more than one study space within 2 hours', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
