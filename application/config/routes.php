@@ -62,7 +62,7 @@ $route['register']['GET'] = 'librarians/register';
 $route['register']['POST'] = 'librarians/create';
 $route['search']['GET'] = 'users/search_page';
 $route['search']['POST'] = 'users/search';
-$route['studyspaces/reserve']['PUT'] = 'studyspaces/reserve';
+$route['studyspaces/reserve']['POST'] = 'studyspaces/reserve';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
