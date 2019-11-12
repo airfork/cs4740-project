@@ -29,7 +29,7 @@ class Studyspaces extends CI_Controller {
             echo json_encode(array('issue' => 'You cannot reserve more than one study space within 2 hours', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
             return;
         }
-        $this->book_model->checkout($id, $space_id);
+        $this->studyspaces_model->checkout($id, $space_id);
         header('Content-Type: application/json');
         echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
     }
