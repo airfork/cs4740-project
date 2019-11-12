@@ -62,7 +62,7 @@ $route['register']['GET'] = 'users/register';
 $route['register']['POST'] = 'users/create';
 $route['search']['GET'] = 'users/search_page';
 $route['search']['POST'] = 'users/search';
-$route['studySpaces/reserve']['GET'] = 'studyspaces/reserve';
+$route['studySpaces/reserve']['POST'] = 'studyspaces/reserve';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
