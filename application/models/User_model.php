@@ -29,7 +29,63 @@ class User_model extends CI_Model {
         $_SESSION['id'] = $this->encryption->encrypt($query['student_id']);
         return true;
     }
-
+    
+    public function get_book_hist() {
+        // language=sql
+        $sql = "SELECT title, checkout_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_aj_hist() {
+        // language=sql
+        $sql = "SELECT title, checkout_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_movie_hist() {
+        // language=sql
+        $sql = "SELECT title, checkout_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_space_hist() {
+        // language=sql
+        $sql = "SELECT name FROM study_spaces NATURAL JOIN reserves WHERE student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_book_deadline() {
+        // language=sql
+        $sql = "SELECT title, return_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_aj_deadline() {
+        // language=sql
+        $sql = "SELECT title, return_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_movie_deadline() {
+        // language=sql
+        $sql = "SELECT title, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_space_deadline() {
+        // language=sql
+        $sql = "SELECT name, reservedUntil FROM study_spaces NATURAL JOIN reserves WHERE student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
     private function sanitize($data) {
         return htmlspecialchars(trim(stripslashes($data)));
     }
