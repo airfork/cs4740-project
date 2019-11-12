@@ -24,6 +24,8 @@
             <?php } ?>
             <?php if (!$logged_in) { ?>
                 <li><a href="<?php echo site_url('/login'); ?>">Login</a></li>
+            <?php } ?>
+            <?php if(!empty($librarian)) { ?>
                 <li><a href="<?php echo site_url('/register'); ?>">Register</a><li>
             <?php } ?>
             <?php if ($logged_in) { ?>

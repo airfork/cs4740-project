@@ -8,6 +8,7 @@ class Users extends CI_Controller {
         $this->load->model('book_model');
         $this->load->model('movie_model');
         $this->load->model('article_model');
+        $this->load->model('librarian_model');
         $this->load->helper('url_helper');
     }
 
@@ -23,16 +24,10 @@ class Users extends CI_Controller {
     public function main_page() {
         $data['logged_in'] = $this->is_signed_in();
         $data['homepage'] = true;
+        if ($this->is_librarian()) {
+            $data['librarian'] = true;
+        }
         $this->load->view('index', $data);
-    }
-
-    public function register() {
-        $this->signed_in();
-        $data['csrf'] = array(
-            'name' => $this->security->get_csrf_token_name(),
-            'hash' => $this->security->get_csrf_hash()
-        );
-        $this->load->view('users/register', $data);
     }
 
     public function login() {
@@ -47,33 +42,6 @@ class Users extends CI_Controller {
             );
             $this->load->view('users/login', $data);
         } else {
-            redirect('/', 'refresh');
-        }
-    }
-
-    public function create() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->load->library('encryption');
-        $this->form_validation->set_rules(
-            'email', 'email',
-            'required|is_unique[students.email]',
-            array(
-                'required'      => 'You have not provided a %s.',
-                'is_unique'     => 'This %s already exists.'
-            )
-        );
-        $this->form_validation->set_rules('name', 'name', 'required|min_length[3]|max_length[100]');
-        $this->form_validation->set_rules('password', 'password', 'required|min_length[8]');
-        $this->form_validation->set_rules('passconf', 'password confirmation', 'required|matches[password]');
-        if ($this->form_validation->run() === FALSE) {
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $this->load->view('users/register', $data);
-        } else {
-            $_SESSION['id'] = $this->encryption->encrypt($this->user_model->create());
             redirect('/', 'refresh');
         }
     }
@@ -102,6 +70,8 @@ class Users extends CI_Controller {
                 'name' => $this->security->get_csrf_token_name(),
                 'hash' => $this->security->get_csrf_hash()
             );
+            $data['searchpage'] = true;
+            $data['logged_in'] = $this->is_signed_in();
             $this->load->view('users/search', $data);
         } else {
             switch ($this->input->post('type')) {
@@ -113,6 +83,7 @@ class Users extends CI_Controller {
                     );
                     $data['books'] = $books;
                     $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
                     $this->load->view('users/search', $data);
                     break;
                 case 'movies':
@@ -124,6 +95,7 @@ class Users extends CI_Controller {
                     $data['movies'] = $movies;
                     $data['type'] = 'movies';
                     $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
                     $this->load->view('users/search', $data);
                     break;
                 case 'articles':
@@ -135,6 +107,7 @@ class Users extends CI_Controller {
                     $data['articles'] = $articles;
                     $data['type'] = 'articles';
                     $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
                     $this->load->view('users/search', $data);
                     break;
             }
@@ -153,8 +126,10 @@ class Users extends CI_Controller {
         $email = $this->sanitize($this->input->post('email'));
         $password = $this->input->post('password');
         if(!$this->user_model->check_user($email, $password)) {
-            $this->form_validation->set_message('check_user', 'Email or password is incorrect, please try again.');
-            return FALSE;
+            if (!$this->librarian_model->check_user($email, $password)) {
+                $this->form_validation->set_message('check_user', 'Email or password is incorrect, please try again.');
+                return FALSE;
+            }
         }
         return TRUE;
     }
@@ -174,6 +149,13 @@ class Users extends CI_Controller {
         return true;
     }
 
+    private function is_librarian() : bool {
+        if (empty($_SESSION['lib'])) {
+            return false;
+        }
+        return true;
+    }
+
     private function sanitize($data) {
         return htmlspecialchars(trim(stripslashes($data)));
     }
@@ -183,4 +165,6 @@ class Users extends CI_Controller {
             redirect('/', 'refresh');
         }
     }
+
+
 }

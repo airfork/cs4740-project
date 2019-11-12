@@ -6,10 +6,10 @@ class User_model extends CI_Model {
         $this->load->library('encryption');
     }
 
-    public function create() {
+    public function create($password) {
         $name = $this->sanitize($this->input->post('name'));
         $email = $this->sanitize($this->input->post('email'));
-        $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        $password = password_hash($password, PASSWORD_DEFAULT);
         // language=sql
         $sql = "INSERT INTO students (name, email, password) VALUES (?, ?, ?)";
         $query = $this->db->query($sql, array($name, $email, $password));

@@ -15,6 +15,11 @@ class Books extends CI_Controller {
             echo json_encode(array('issue' => 'You need to be signed in to checkout a book', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
             return;
         }
+        if ($this->validate_lib()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You cannot checkout items as a Librarian', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
         $isbn = $this->input->post('book');
         $checked_out = $this->book_model->checked_out($isbn);
         if ($checked_out['count'] == 1) {
@@ -36,6 +41,14 @@ class Books extends CI_Controller {
 
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
+            return false;
+        }
+        return true;
+    }
+
+    // Returns true if user is librarian
+    private function validate_lib() {
+        if (empty($_SESSION['lib'])) {
             return false;
         }
         return true;
