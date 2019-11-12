@@ -34,4 +34,18 @@ class Article_model extends CI_Model {
         $sql = "INSERT INTO article_journal_checkout (student_id, ajauthor, title, pubDate) VALUES (?, ?, ?, ?)";
         $this->db->query($sql, array($id, $author, $title, $pubDate));
     }
+
+    public function get_aj_hist() {
+        // language=sql
+        $sql = "SELECT title, checkout_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_aj_deadline() {
+        // language=sql
+        $sql = "SELECT title, return_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
 }

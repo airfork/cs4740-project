@@ -33,4 +33,18 @@ class Book_model extends CI_Model {
         $sql = "INSERT INTO book_checkout (student_id, book_id) VALUES (?, ?)";
         $this->db->query($sql, array($id, $isbn));
     }
+
+    public function get_book_hist() {
+        // language=sql
+        $sql = "SELECT title, checkout_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
+    
+    public function get_book_deadline() {
+        // language=sql
+        $sql = "SELECT title, return_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ?";
+        $query = $this->db->query($sql, array($student_id));
+        return $query->row_array();
+    }
 }
