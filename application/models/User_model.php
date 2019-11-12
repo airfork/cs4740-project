@@ -30,6 +30,12 @@ class User_model extends CI_Model {
         return true;
     }
     
+    public function get_user($email) {
+        $sql = "SELECT student_id FROM students WHERE email = ?";
+        $query = $this->db->query($sql, array($email));
+        return $query->row_array();
+    }
+    
     public function get_book_hist() {
         // language=sql
         $sql = "SELECT title, checkout_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ?";
