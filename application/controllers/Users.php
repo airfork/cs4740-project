@@ -9,6 +9,7 @@ class Users extends CI_Controller {
         $this->load->model('movie_model');
         $this->load->model('article_model');
         $this->load->helper('url_helper');
+        $this->load->library('encryption');
     }
 
     public function index() {
@@ -133,14 +134,13 @@ class Users extends CI_Controller {
     
     public function account_page(): {
         $this->validate();
-        $email = $this->sanitize($this->input->post('email'));
-        $data['name'] = $this->user_model->get_user($email)
-        $this->load->view('users/account_page', $data)
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $this->load->view('users/accountpage', $id)
     }
     
     public function checkout_history(): {
         $this->validate();
-       
+        $id = $this->encryption->decrypt($_SESSION['id']);
         $data['checkout_history']
         $this->load->view('users/checkout_history', $data)
     }

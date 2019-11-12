@@ -31,6 +31,9 @@
             <?php if ($logged_in) { ?>
                 <li><a href="<?php echo site_url('/logout'); ?>">Logout</a></li>
             <?php } ?>
+            <?php if (empty($accountpage)) { ?>
+                <li><a href="<?php echo site_url('/accountpage'); ?>">Account</a><li>
+            <?php } ?>
         </ul>
     </div>
 </nav>
