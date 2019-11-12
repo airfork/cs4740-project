@@ -130,6 +130,20 @@ class Users extends CI_Controller {
         }
         return FALSE;
     }
+    
+    public function account_page(): {
+        $this->validate();
+        $email = $this->sanitize($this->input->post('email'));
+        $data['name'] = $this->user_model->get_user($email)
+        $this->load->view('users/account_page', $data)
+    }
+    
+    public function checkout_history(): {
+        $this->validate();
+       
+        $data['checkout_history']
+        $this->load->view('users/checkout_history', $data)
+    }
 
     private function is_signed_in() : bool {
         if (empty($_SESSION['id'])) {
