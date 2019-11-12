@@ -14,14 +14,14 @@ class Studyspaces_model extends CI_Model {
 
     public function booking_count($id) {
         // language=sql
-        $sql = "SELECT count(student_id) AS count FROM reserves WHERE student_id = ? AND reservedUntil > CURRENT_DATETIME()";
+        $sql = "SELECT count(student_id) AS count FROM reserves WHERE student_id = ? AND reservedUntil > now()";
         $query = $this->db->query($sql, array($id));
         return $query->row_array();
     }
 
     public function already_booked($space_id) {
         // language=sql
-        $sql = "SELECT count(space_id) AS count FROM reserves WHERE space_id = ? AND reservedUntil > CURRENT_DATETIME()";
+        $sql = "SELECT count(space_id) AS count FROM reserves WHERE space_id = ? AND reservedUntil > now()";
         $query = $this->db->query($sql, array($space_id));
         return $query->row_array();
     }
