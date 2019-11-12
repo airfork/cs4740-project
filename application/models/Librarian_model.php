@@ -45,7 +45,7 @@ class Librarian_model extends CI_Model {
 
     public function add_item(){
         //language = sql
-        
+        $sql = ""
     }
 
     public function remove_item(){

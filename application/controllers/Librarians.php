@@ -83,4 +83,8 @@ class Librarians extends CI_Controller {
             redirect('/', 'refresh');
         }
     }
+
+    private function create_user(){
+        
+    }
 }
