@@ -132,10 +132,9 @@ class Users extends CI_Controller {
         return FALSE;
     }
     
-    public function account_page(): {
+    public function accountpage(): {
         $this->validate();
-        $id = $this->encryption->decrypt($_SESSION['id']);
-        $this->load->view('users/accountpage', $id)
+        
     }
     
     public function checkout_history(): {
