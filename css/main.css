@@ -50,3 +50,8 @@ html, body {
     background-color: rgba(242,242,242,0.5);
     cursor: not-allowed;
 }
+
+.alreadyReserved{
+    background-color: rgba(242,242,242,0.5);
+    cursor: not-allowed;
+}
