@@ -21,7 +21,7 @@ class Studyspaces_model extends CI_Model {
 
     public function already_booked($space_id) {
         // language=sql
-        $sql = "SELECT count(space_id) AS count FROM reserves WHERE space_id = ? AND DATETIME_DIFF(reservedUntil,CURRENT_DATETIME(),SECOND) > 0";
+        $sql = "SELECT count(space_id) AS count FROM reserves WHERE space_id = ? AND reservedUntil > CURRENT_DATETIME()";
         $query = $this->db->query($sql, array($space_id));
         return $query->row_array();
     }
