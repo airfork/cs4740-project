@@ -1,10 +1,4 @@
-<?php $this->view('headers/default_header') ?>
-<body>
-    <div class="container">
-        <h2>Account</h2>
-        Upcoming book deadlines:
-        
-    </div>
-    
-</body>
-</html>
+<h2> Title </h2>
+<?php foreach ($deadline as $book): ?>
+<h4><?php echo $book['title']; ?></h4>
+<?php endforeach; ?>

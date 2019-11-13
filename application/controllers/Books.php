@@ -35,7 +35,8 @@ class Books extends CI_Controller {
     }
 
     public function deadline() {
-        $data['deadline'] = $this->book_model->get_book_deadline();
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['deadline'] = $this->book_model->get_book_deadline($id);
         $this->load->view('books/deadlines', $data);
     }
 

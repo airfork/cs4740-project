@@ -12,10 +12,10 @@ class Book_model extends CI_Model {
         return $query->row_array();
     }
     
-    public function get_space_deadline() {
+    public function get_space_deadline($id) {
         // language=sql
         $sql = "SELECT name, reservedUntil FROM study_spaces NATURAL JOIN reserves WHERE student_id = ?";
-        $query = $this->db->query($sql, array($student_id));
+        $query = $this->db->query($sql, array($id));
         return $query->row_array();
     }
 
