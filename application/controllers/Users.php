@@ -109,7 +109,7 @@ class Users extends CI_Controller {
                     $data['type'] = 'articles';
                     $data['logged_in'] = $this->is_signed_in();
                     $data['searchpage'] = true;
-                    $this->load->view('study_spaces/index', $data);
+                    $this->load->view('users/search', $data);
                     break;
             }
         }
@@ -123,7 +123,7 @@ class Users extends CI_Controller {
         );
         $data['study_spaces'] = $study_spaces;
         $data['logged_in'] = $this->is_signed_in();
-        $this->load->view('users/reserve', $data);
+        $this->load->view('study_spaces/index', $data);
     }
 
     public function logout() {
