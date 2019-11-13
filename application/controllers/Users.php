@@ -9,6 +9,7 @@ class Users extends CI_Controller {
         $this->load->model('movie_model');
         $this->load->model('article_model');
         $this->load->model('librarian_model');
+        $this->load->model('studyspaces_model');
         $this->load->helper('url_helper');
     }
 
