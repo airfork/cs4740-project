@@ -117,7 +117,6 @@ class Users extends CI_Controller {
 
     public function reserve(){
         $study_spaces = $this->studyspaces_model->get();
-        echo $study_spaces['name'];
         $data['csrf'] = array(
             'name' => $this->security->get_csrf_token_name(),
             'hash' => $this->security->get_csrf_hash()
