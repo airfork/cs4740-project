@@ -132,16 +132,13 @@ class Users extends CI_Controller {
         return FALSE;
     }
     
-    public function accountpage(): {
-        $this->validate();
-        
-    }
-    
-    public function checkout_history(): {
-        $this->validate();
-        $id = $this->encryption->decrypt($_SESSION['id']);
-        $data['checkout_history']
-        $this->load->view('users/checkout_history', $data)
+    public function accountpage() {
+        if (empty($_SESSION['id'])) {
+            redirect('/', 'refresh');
+        }
+        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
+        $data['logged_in'] = $this->is_signed_in();
+        $this->load->view('users/accountpage', $data);
     }
 
     private function is_signed_in() : bool {

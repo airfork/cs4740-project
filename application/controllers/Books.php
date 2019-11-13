@@ -34,6 +34,11 @@ class Books extends CI_Controller {
         echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
     }
 
+    public function deadline() {
+        $data['deadline'] = $this->book_model->get_book_deadline();
+        $this->load->view('books/deadlines', $data);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

@@ -1,14 +1,14 @@
 <?php $this->view('headers/default_header') ?>
 <body>
-    <?php
-    $this->load->helper('form');
-    $this->load->library('form_validation');
-    $url = site_url('/login');
-    ?>
-
-    <section class="align">
+    <div class="container">
         <h2>Account</h2>
-        
-     </section>
+        Hello.
+        <br>
+        <br>
+        <?php if ($logged_in) { ?>
+                <li><a href="<?php echo site_url('/books/deadlines'); ?>">Deadlines</a></li>
+            <?php } ?>
+    </div>
+    
 </body>
 </html>

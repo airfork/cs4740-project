@@ -29,12 +29,6 @@ class User_model extends CI_Model {
         $_SESSION['id'] = $this->encryption->encrypt($query['student_id']);
         return true;
     }
-    
-    public function get_user($email) {
-        $sql = "SELECT student_id FROM students WHERE email = ?";
-        $query = $this->db->query($sql, array($email));
-        return $query->row_array();
-    }
         
     private function sanitize($data) {
         return htmlspecialchars(trim(stripslashes($data)));
