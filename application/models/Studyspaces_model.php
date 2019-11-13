@@ -7,7 +7,7 @@ class Studyspaces_model extends CI_Model {
 
     public function get() {
         //$sql = "SELECT name, description, location, reservedUntil FROM study_spaces INNER JOIN reserves WHERE DATETIME_DIFF(reservedUntil,CURRENT_DATETIME(),MILLISECOND) < 0"
-        $sql = "SELECT space_id, name, description, location, reservedUntil FROM study_spaces INNER JOIN reserves";
+        $sql = "SELECT name, description, location, reservedUntil FROM study_spaces INNER JOIN reserves";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
