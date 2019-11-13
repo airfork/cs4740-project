@@ -1,4 +1,5 @@
 <?php
+echo sizeof($study_spaces);
 if (!empty($study_spaces)) { ?>
     <h3>Study Spaces:</h3>
     <table>
