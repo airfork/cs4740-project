@@ -33,10 +33,52 @@ function articleCheckout(title, author, pubDate) {
     }
 }
 
+function delete_book(isbn) {
+    if (confirm('Are you sure you want to delete this book?')) {
+        
+    }
+}
+
 function checkedOut(type) {
     M.toast({
         html: `This ${type} has already been checked out`
     });
+}
+
+function deleteItem(route, form) {
+    let request = new XMLHttpRequest();
+    request.open('POST', url + route, true);
+    request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+            const data = JSON.parse(request.responseText);
+            csrf = data.csrf_token;
+            document.getElementById('csrf').value = csrf;
+            if (data.valid) {
+                M.toast({
+                    html: 'Item has been deleted out!'
+                });
+            } else {
+                M.toast({
+                    html: data.issue
+                });
+            }
+        } else {
+            // We reached our target server, but it returned an error
+            M.toast({
+                html: 'There was a problem processing your request, please refresh the page and try again.'
+            });
+        }
+    };
+
+    request.onerror = function () {
+        // There was a connection error of some sort
+        console.log("There was an error of some type, please try again");
+        M.toast({
+            html: 'There was a problem processing your request, please refresh the page and try again.'
+        });
+    };
+
+    request.send(form);
 }
 
 function checkout(route, form) {

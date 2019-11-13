@@ -33,4 +33,11 @@ class Book_model extends CI_Model {
         $sql = "INSERT INTO book_checkout (student_id, book_id) VALUES (?, ?)";
         $this->db->query($sql, array($id, $isbn));
     }
+
+    public function delete_book($isbn){
+        $sql = "DELETE FROM book VALUES(?)";
+        $this->db->query($sql, array($isbn));
+
+    }
+    
 }

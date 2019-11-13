@@ -27,6 +27,8 @@
             <?php } ?>
             <?php if(!empty($librarian)) { ?>
                 <li><a href="<?php echo site_url('/register'); ?>">Register</a><li>
+                <li><a href="<?php echo site_url('/librarians/insert'); ?>">Insert</a><li>
+                <li><a href="<?php echo site_url('/librarians/delete'); ?>">Delete</a><li>
             <?php } ?>
             <?php if ($logged_in) { ?>
                 <li><a href="<?php echo site_url('/logout'); ?>">Logout</a></li>

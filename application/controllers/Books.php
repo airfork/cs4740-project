@@ -53,4 +53,27 @@ class Books extends CI_Controller {
         }
         return true;
     }
+    
+    private function insert_book(){
+        
+    }
+
+    private function delete_book(){
+        if (!$this->validate()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You need to be signed in to delete a book', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (!$this->validate_lib()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You cannot delete items as a Librarian', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $isbn = $this->input->post('book');
+        $this->book_model->delete_book($id, $isbn);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+
+
+    }
 }
