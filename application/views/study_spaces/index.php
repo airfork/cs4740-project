@@ -1,6 +1,6 @@
 <?php
 if (!empty($study_spaces)) { ?>
-    <h3>Search Results:</h3>
+    <h3>Study Spaces:</h3>
     <table>
         <thead>
         <tr>

@@ -114,6 +114,17 @@ class Users extends CI_Controller {
         }
     }
 
+    public function reserve(){
+        $study_spaces = $this->studyspaces_model->get();
+        $data['csrf'] = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
+        $data['study_spaces'] = $study_spaces;
+        $data['logged_in'] = $this->is_signed_in();
+        $this->load->view('users/reserve', $data);
+    }
+
     public function logout() {
         session_unset();
         session_destroy();
