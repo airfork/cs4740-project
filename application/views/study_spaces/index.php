@@ -1,5 +1,5 @@
 <?php
-if (!empty($study_spaces)) { ?>
+if (!empty($study_spaces) and $logged_in) { ?>
     <h3>Study Spaces:</h3>
     <table>
         <thead>
