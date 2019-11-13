@@ -15,7 +15,7 @@
             </li>
             <li>
             <div class="collapsible-header"><i class="material-icons">create</i>Articles/Journals</div>
-            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+            <div class="collapsible-body"><span><?php $this->view('articles/deadlines'); ?></span></div>
             </li>
             <li>
             <div class="collapsible-header"><i class="material-icons">movie</i>Movies</div>

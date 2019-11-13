@@ -139,6 +139,8 @@ class Users extends CI_Controller {
         $data['id'] = $this->encryption->decrypt($_SESSION['id']);
         $data['logged_in'] = $this->is_signed_in();
         $data['deadline'] = $this->book_model->get_book_deadline($data['id']);
+        $data['deadline_aj'] = $this->article_model->get_aj_deadline($data['id']);
+        
         $this->load->view('users/accountpage', $data);
     }
 

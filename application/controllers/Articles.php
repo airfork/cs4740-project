@@ -37,6 +37,12 @@ class Articles extends CI_Controller {
         echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
     }
 
+    public function deadline() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['deadline'] = $this->article_model->get_aj_deadline($id);
+        $this->load->view('articles/deadlines', $data);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;
