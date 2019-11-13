@@ -124,7 +124,7 @@ class Users extends CI_Controller {
         );
         $data['study_spaces'] = $study_spaces;
         $data['logged_in'] = $this->is_signed_in();
-        $this->load->view('study_spaces/index', $study_spaces);
+        $this->load->view('study_spaces/index');
     }
 
     public function logout() {
