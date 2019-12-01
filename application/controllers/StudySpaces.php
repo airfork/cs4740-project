@@ -15,6 +15,11 @@ class Studyspaces extends CI_Controller {
             echo json_encode(array('issue' => 'You need to be signed in to reserve a study space', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
             return;
         }
+        if ($this->validate_lib()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You cannot reserve spaces as a Librarian', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
         $space_id = $this->input->post('study_spaces');
         $already_reserved = $this->studyspaces_model->already_booked($space_id);
         if ($already_reserved['count'] >= 1) {
@@ -36,6 +41,13 @@ class Studyspaces extends CI_Controller {
 
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
+            return false;
+        }
+        return true;
+    }
+        // Returns true if user is librarian
+    private function validate_lib() {
+        if (empty($_SESSION['lib'])) {
             return false;
         }
         return true;
