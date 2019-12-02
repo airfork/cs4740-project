@@ -38,7 +38,7 @@ function reserve(space_id){
         const studyspaceReserve = new FormData();
         studyspaceReserve.set('csrf_token', csrf);
         studyspaceReserve.set('space_id', space_id);
-        reserveSpace('studyspaces/reserveSpace', studyspaceReserve);
+        reserveSpace('studyspaces/reserve', studyspaceReserve);
     }
 }
 
