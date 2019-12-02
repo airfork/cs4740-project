@@ -2,42 +2,46 @@
 <body>
     <div class="container">
         <h2>Checkout History</h2>
-        <br>
-        <br>
         <ul class="collapsible">
             <li>
             <div class="collapsible-header"><i class="material-icons">book</i>Books</div>
-            <div class="collapsible-body grey lighten-4"><span>
+            <div class="collapsible-body grey lighten-4 center-align"><span>
                 <?php $this->view('books/history'); ?>
                 <br>
-                <a href="<?php echo site_url('download_bookhist'); ?>">Download Book Checkout History</a>
+                <a href="<?php echo site_url('download_bookhist'); ?>">Download Checkout History</a>
             </span></div>
             </li>
             <li>
-            <div class="collapsible-header"><i class="material-icons">create</i>Articles/Journals</div>
-            <div class="collapsible-body grey lighten-4"><span>
+            <div class="collapsible-header"><i class="material-icons">note</i>Articles/Journals</div>
+            <div class="collapsible-body grey lighten-4 center-align"><span>
                 <?php $this->view('articles/history'); ?>
                 <br>
-                <a href="<?php echo site_url('download_ajhist'); ?>">Download Articles/Journals Checkout History</a>
+                <a href="<?php echo site_url('download_ajhist'); ?>">Download Checkout History</a>
             </span></div>
             </li>
             <li>
             <div class="collapsible-header"><i class="material-icons">movie</i>Movies</div>
-            <div class="collapsible-body grey lighten-4"><span>
+            <div class="collapsible-body grey lighten-4 center-align"><span>
                 <?php $this->view('movies/history'); ?>
                 <br>
-                <a href="<?php echo site_url('download_moviehist'); ?>">Download Movies Checkout History</a>
+                <a href="<?php echo site_url('download_moviehist'); ?>">Download Checkout History</a>
             </span></div>
             </li>
             <li>
             <div class="collapsible-header"><i class="material-icons">meeting_room</i>Study Spaces</div>
-            <div class="collapsible-body grey lighten-4"><span>
+            <div class="collapsible-body grey lighten-4 center-align"><span>
                 <?php $this->view('spaces/history'); ?>
                 <br>
-                <a href="<?php echo site_url('download_studyhist'); ?>">Download Study Space Checkout History</a>
+                <a href="<?php echo site_url('download_studyhist'); ?>">Download Checkout History</a>
             </span></div>
             </li>
         </ul>
+
+        <div class="fixed-action-btn">
+            <a href="<?php echo site_url('/editinfo'); ?>" class="btn-floating btn-large tooltipped" id="edit-btn" data-position="left" data-tooltip="Edit Account">
+                <i class="large material-icons">mode_edit</i>
+            </a>
+        </div>
         
     </div>
     <script src="<?php echo base_url() . 'js/search.js'; ?>"></script>

@@ -145,7 +145,7 @@ class Users extends CI_Controller {
     }
     
     public function accountpage() {
-        if (empty($_SESSION['id'])) {
+        if (!$this->is_signed_in()) {
             redirect('/', 'refresh');
         }
         $data['id'] = $this->encryption->decrypt($_SESSION['id']);
@@ -178,8 +178,8 @@ class Users extends CI_Controller {
         }
         $data['id'] = $this->encryption->decrypt($_SESSION['id']);
         $data['logged_in'] = $this->is_signed_in();
-        $data['name'] = $this->input->post('name');
-        $data['email'] = $this->input->post('email');
+        $data['name'] = $this->sanitize($this->input->post('name'));
+        $data['email'] = $this->sanitize($this->input->post('email'));
         $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
 
         $this->user_model->updating($data);

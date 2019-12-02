@@ -18,6 +18,14 @@ html, body {
     color: #5D576B;
 }
 
+#edit-btn, #save-btn {
+    background-color: #8884FF;
+}
+
+#history-btn {
+    background-color: #9e79ff;
+}
+
 /* label color */
 .input-field label, textarea.materialize-textarea:focus:not([readonly])+label {
     color: #8884FF !important;
