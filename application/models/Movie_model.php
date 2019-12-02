@@ -38,4 +38,31 @@ class Movie_model extends CI_Model {
         $sql = "INSERT INTO movie_checkout (student_id, title, director) VALUES (?, ?, ?)";
         $this->db->query($sql, array($id, $title, $director));
     }
+
+    public function get_movie_hist($id, $download=FALSE) {
+        // language=sql
+        $sql = "SELECT title, checkout_date, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($id));
+        if ($download) {
+            $this->write_csv($query);
+        }
+        return $query->result_array();
+    }
+
+    public function get_movie_deadline($id) {
+        // language=sql
+        $sql = "SELECT title FROM movies NATURAL JOIN movie_checkout WHERE student_id = ? AND return_date IS NULL";
+        $query = $this->db->query($sql, array($id));
+        return $query->result_array();
+    }
+
+    private function write_csv($query) {
+        $delimiter = ",";
+        $newline = "\r\n";
+        $enclosure = '"';
+
+        $this->load->helper('file');
+        $this->load->dbutil();
+        write_file('movie_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
+    }
 }

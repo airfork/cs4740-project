@@ -62,6 +62,15 @@ $route['register']['GET'] = 'librarians/register';
 $route['register']['POST'] = 'librarians/create';
 $route['search']['GET'] = 'users/search_page';
 $route['search']['POST'] = 'users/search';
+$route['accountpage']['GET'] = 'users/accountpage';
+$route['books/deadlines']['GET'] = 'books/deadline';
+$route['checkouthistory']['GET'] = 'users/checkouthistory';
+$route['editinfo']['GET'] = 'users/editinfo';
+$route['editinfo']['POST'] = 'users/updateuser';
+$route['download_bookhist']['GET'] = 'books/download_bookhist';
+$route['download_ajhist']['GET'] = 'articles/download_ajhist';
+$route['download_moviehist']['GET'] = 'movies/download_moviehist';
+$route['download_studyhist']['GET'] = 'spaces/download_studyhist';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
