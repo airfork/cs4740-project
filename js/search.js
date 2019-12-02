@@ -34,7 +34,6 @@ function articleCheckout(title, author, pubDate) {
 }
 
 function reserve(space_id){
-    console.log(space_id)
     if(confirm('Are you sure you want to reserve this study space?')){
         const studyspaceReserve = new FormData();
         studyspaceReserve.set('csrf_token', csrf);
@@ -111,6 +110,7 @@ function reserveSpace(route, form) {
                 });
             }
         } else {
+            console.log('reached');
             // We reached our target server, but it returned an error
             M.toast({
                 html: 'There was a problem processing your request, please refresh the page and try again.'
