@@ -54,7 +54,9 @@ class Movies extends CI_Controller {
 
     public function download_moviehist() {
         $id = $this->encryption->decrypt($_SESSION['id']);
-        $this->movie_model->get_movie_hist($id, $download=TRUE);
+        $this->movie_model->get_movie_hist($id, TRUE);
+        $this->load->helper('download');
+        force_download('movie_checkout.csv', NULL);
     }
 
     private function validate() : bool {

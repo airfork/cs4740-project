@@ -10,9 +10,7 @@ class Space_model extends CI_Model {
         $sql = "SELECT name, reservedUntil FROM study_spaces NATURAL JOIN reserves WHERE student_id = ?";
         $query = $this->db->query($sql, array($id));
         if ($download) {
-            $name = "space_checkout.csv";
-            $this->load->helper('download');
-            force_download('file.csv', NULL);
+            $this->write_csv($query);
         }
         return $query->result_array();
     }
@@ -23,7 +21,8 @@ class Space_model extends CI_Model {
         $enclosure = '"';
 
         $this->load->helper('file');
-        write_file('exports/space_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
+        $this->load->dbutil();
+        write_file('space_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
     }
 
     public function get_space_deadline($id) {

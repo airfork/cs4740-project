@@ -56,7 +56,9 @@ class Articles extends CI_Controller {
 
     public function download_ajhist() {
         $id = $this->encryption->decrypt($_SESSION['id']);
-        $this->article_model->get_aj_hist($id, $download=TRUE);
+        $this->article_model->get_aj_hist($id, TRUE);
+        $this->load->helper('download');
+        force_download('aj_checkout.csv', NULL);
     }
 
     private function validate() : bool {

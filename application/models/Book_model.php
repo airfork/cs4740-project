@@ -40,21 +40,18 @@ class Book_model extends CI_Model {
         $sql = "SELECT title, checkout_date, return_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ? ";
         $query = $this->db->query($sql, array($id));
         if ($download) {
-            $name = "book_checkout.csv";
-            $this->load->helper('download');
-            force_download('file.csv', NULL);
+            $this->write_csv($query);
         }
         return $query->result_array();
     }
 
-    // not sure if this is used at all?? same for others (i.e. articles, movies, spaces)
     private function write_csv($query) {
         $delimiter = ",";
         $newline = "\r\n";
         $enclosure = '"';
 
         $this->load->helper('file');
-        write_file('exports/book_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
+        write_file('book_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
     }
     
     public function get_book_deadline($id) {

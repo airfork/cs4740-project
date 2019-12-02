@@ -53,7 +53,9 @@ class Books extends CI_Controller {
 
     public function download_bookhist() {
         $id = $this->encryption->decrypt($_SESSION['id']);
-        $this->book_model->get_book_hist($id, $download=TRUE);
+        $this->book_model->get_book_hist($id, TRUE);
+        $this->load->helper('download');
+        force_download('book_checkout.csv', NULL);
     }
 
     private function validate() : bool {

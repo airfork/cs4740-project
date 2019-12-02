@@ -39,9 +39,7 @@ class Movie_model extends CI_Model {
         $sql = "SELECT title, checkout_date, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ?";
         $query = $this->db->query($sql, array($id));
         if ($download) {
-            $name = "movie_checkout.csv";
-            $this->load->helper('download');
-            force_download('file.csv', NULL);
+            $this->write_csv($query);
         }
         return $query->result_array();
     }
@@ -51,5 +49,15 @@ class Movie_model extends CI_Model {
         $sql = "SELECT title FROM movies NATURAL JOIN movie_checkout WHERE student_id = ? AND return_date IS NULL";
         $query = $this->db->query($sql, array($id));
         return $query->result_array();
+    }
+
+    private function write_csv($query) {
+        $delimiter = ",";
+        $newline = "\r\n";
+        $enclosure = '"';
+
+        $this->load->helper('file');
+        $this->load->dbutil();
+        write_file('movie_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
     }
 }

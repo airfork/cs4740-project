@@ -23,7 +23,9 @@ class Spaces extends CI_Controller {
 
     public function download_studyhist() {
         $id = $this->encryption->decrypt($_SESSION['id']);
-        $this->space_model->get_space_hist($id, $download=TRUE);
+        $this->space_model->get_space_hist($id, TRUE);
+        $this->load->helper('download');
+        force_download('space_checkout.csv', NULL);
     }
 
     private function validate() : bool {

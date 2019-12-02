@@ -40,9 +40,7 @@ class Article_model extends CI_Model {
         $sql = "SELECT title, checkout_date, return_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
         $query = $this->db->query($sql, array($id));
         if ($download) {
-            $name = "aj_checkout.csv";
-            $this->load->helper('download');
-            force_download('file.csv', NULL);
+            $this->write_csv($query);
         }
         return $query->result_array();
     }
@@ -53,7 +51,8 @@ class Article_model extends CI_Model {
         $enclosure = '"';
 
         $this->load->helper('file');
-        write_file('exports/aj_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
+        $this->load->dbutil();
+        write_file('aj_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
     }
     
     public function get_aj_deadline($id) {
