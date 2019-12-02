@@ -1,5 +1,5 @@
 <?php
-if (!empty($study_spaces) and $logged_in) { ?>
+if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) { ?> -->
     <h3>Study Spaces:</h3>
     <table>
         <thead>
@@ -16,7 +16,7 @@ if (!empty($study_spaces) and $logged_in) { ?>
             if($study_space['already_reserved'] != 0) {
                 $already_reserved = true;
             }
-            if ($reserved) {
+            if ($already_reserved) {
                 echo '<tr class="search-list already_reserved" onclick="alreadyReserved()">';
             } else {
                 echo "<tr class=\"search-list\" onclick=\"reserveSpace('{$study_space['space_id']}')\">";
