@@ -6,6 +6,7 @@
         <?php
         $url = site_url('/');
         ?>
+        <input type="hidden" value="<?php echo $url ?>" id="url">
         <?php $this->view('study_spaces/index'); ?>
     </div>
     <script src="<?php echo base_url() . 'js/search.js'; ?>"></script>
