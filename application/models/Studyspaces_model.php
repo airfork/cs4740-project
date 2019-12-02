@@ -8,7 +8,9 @@ class Studyspaces_model extends CI_Model {
     public function get() {
         //$sql = "SELECT name, description, location, reservedUntil FROM study_spaces INNER JOIN reserves WHERE DATETIME_DIFF(reservedUntil,CURRENT_DATETIME(),MILLISECOND) < 0"
         //$sql = "SELECT name, description, location, reservedUntil FROM study_spaces INNER JOIN reserves";
-        $sql = "SELECT name, description, location FROM study_spaces";
+        $sql = "SELECT s.name, s.description, s.location, s.space_id,
+                (SELECT count(student_id) FROM reserves WHERE space_id = s.space_id AND reservedUntil > now()) AS already_reserved 
+                FROM study_spaces s"; //may not work, but idea is to have all study spaces report back whether they are reserved
         $query = $this->db->query($sql);
         return $query->result_array();
     }
