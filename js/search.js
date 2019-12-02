@@ -34,6 +34,7 @@ function articleCheckout(title, author, pubDate) {
 }
 
 function reserve(space_id){
+    console.log(space_id)
     if(confirm('Are you sure you want to reserve this study space?')){
         const studyspaceReserve = new FormData();
         studyspaceReserve.set('csrf_token', csrf);
