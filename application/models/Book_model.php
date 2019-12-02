@@ -47,6 +47,7 @@ class Book_model extends CI_Model {
         return $query->result_array();
     }
 
+    // not sure if this is used at all?? same for others (i.e. articles, movies, spaces)
     private function write_csv($query) {
         $delimiter = ",";
         $newline = "\r\n";
