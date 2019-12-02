@@ -67,6 +67,7 @@ $route['books/deadlines']['GET'] = 'books/deadline';
 $route['checkouthistory']['GET'] = 'users/checkouthistory';
 $route['userinfo']['GET'] = 'users/userinfo';
 $route['editinfo']['GET'] = 'users/editinfo';
+$route['editinfo']['POST'] = 'users/updateuser';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

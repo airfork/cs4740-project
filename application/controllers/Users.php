@@ -172,22 +172,19 @@ class Users extends CI_Controller {
         $this->load->view('users/checkouthistory', $data);
     }
 
-    public function update_name() {   
-        $data = array(
-            'table_name' => 'students',
-            'id' => $this->encryption->decrypt($_SESSION['id']),
-            'name' => $this->input->post('name')
-        );
-        $this->user_model->update_db_name($data);
-    }
+    public function updateuser() {
+        if (empty($_SESSION['id'])) {
+            redirect('/', 'refresh');
+        }
+        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
+        $data['logged_in'] = $this->is_signed_in();
+        $data['name'] = $this->input->post('name');
+        $data['email'] = $this->input->post('email');
+        $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
 
-    public function update_email() {   
-        $data = array(
-            'table_name' => 'students',
-            'id' => $this->encryption->decrypt($_SESSION['id']),
-            'email' => $this->input->post('email')
-        );
-        $this->user_model->update_db_email($data);
+        $this->user_model->updating($data);
+
+        redirect('/userinfo', 'refresh');
     }
 
     public function userinfo() {
@@ -210,6 +207,10 @@ class Users extends CI_Controller {
         $data['logged_in'] = $this->is_signed_in();
         $data['name'] = $this->user_model->get_name($data['id']);
         $data['email'] = $this->user_model->get_email($data['id']);
+        $data['csrf'] = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
 
         $this->load->view('users/editinfo', $data);
     }
@@ -237,10 +238,4 @@ class Users extends CI_Controller {
             redirect('/', 'refresh');
         }
     }
-<<<<<<< HEAD
 }
-=======
-
-
-}
->>>>>>> ca50fb12e4ad65ad5888a5b86c7dd035895cd839
