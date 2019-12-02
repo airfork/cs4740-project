@@ -31,7 +31,7 @@
         </ul>
 
         <div class="fixed-action-btn">
-            <a href="<?php echo site_url('/userinfo'); ?>" class="btn-floating btn-large tooltipped" id="edit-btn" data-position="left" data-tooltip="Edit Account">
+            <a href="<?php echo site_url('/editinfo'); ?>" class="btn-floating btn-large tooltipped" id="edit-btn" data-position="left" data-tooltip="Edit Account">
                 <i class="large material-icons">mode_edit</i>
             </a>
             <ul>

@@ -1,5 +1,4 @@
 'use strict';
-let csrf = getCookie('csrf_cookie');
 
 function updateUser() {
     let name = document.getElementById('name').value;
@@ -19,7 +18,7 @@ function updateUser() {
     }
     if (password.length < 8) {
         M.toast({
-            html: 'Password must be longer than 8 characters long'
+            html: 'Password must be at least 8 characters long'
         });
         return;
     }
@@ -33,15 +32,14 @@ function updateUser() {
 
 function sendRequest(form) {
     let request = new XMLHttpRequest();
-    request.open('POST', '/editinfo', true);
+    request.open('POST', url, true);
     request.onload = function () {
         if (request.status >= 200 && request.status < 400) {
             const data = JSON.parse(request.responseText);
             csrf = data.csrf_token;
-            document.getElementById('csrf').value = csrf;
             if (data.valid) {
                 M.toast({
-                    html: 'Account has been updated!'
+                    html: 'Account has been successfully updated!'
                 });
             } else {
                 M.toast({

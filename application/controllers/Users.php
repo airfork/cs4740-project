@@ -54,6 +54,9 @@ class Users extends CI_Controller {
             'hash' => $this->security->get_csrf_hash()
         );
         $data['logged_in'] = $this->is_signed_in();
+        if ($this->is_librarian()) {
+            $data['librarian'] = true;
+        }
         $data['searchpage'] = true;
         $this->load->view('users/search', $data);
     }
@@ -150,6 +153,7 @@ class Users extends CI_Controller {
         }
         $data['id'] = $this->encryption->decrypt($_SESSION['id']);
         $data['logged_in'] = $this->is_signed_in();
+        $data['accountpage'] = true;
         $data['deadline'] = $this->book_model->get_book_deadline($data['id']);
         $data['deadline_aj'] = $this->article_model->get_aj_deadline($data['id']);
         $data['deadline_movie'] = $this->movie_model->get_movie_deadline($data['id']);
@@ -176,31 +180,36 @@ class Users extends CI_Controller {
         if (empty($_SESSION['id'])) {
             redirect('/', 'refresh');
         }
-        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
-        $data['logged_in'] = $this->is_signed_in();
-        $data['name'] = $this->sanitize($this->input->post('name'));
-        $data['email'] = $this->sanitize($this->input->post('email'));
-        $data['password'] = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $name = $this->sanitize($this->input->post('name'));
+        $email = $this->sanitize($this->input->post('email'));
+        $password = $this->input->post('password');
+        $hash = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
 
-        $this->user_model->updating($data);
-
-        redirect('/userinfo', 'refresh');
-    }
-
-    public function userinfo() {
-        if (empty($_SESSION['id'])) {
-            redirect('/', 'refresh');
+        if (strlen($this->sanitize($name)) < 3 ) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Your name must be at least three characters long', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
         }
-        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
-        $data['logged_in'] = $this->is_signed_in();
-        $data['name'] = $this->user_model->get_name($data['id']);
-        $data['email'] = $this->user_model->get_email($data['id']);
 
-        $this->load->view('users/userinfo', $data);
+        if (strlen($this->sanitize($email)) === 0 ) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'The email field cannot be blank', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+
+        if (strlen($password) < 8 ) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Your password must be at least eight characters long', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $this->user_model->updating($id, $name, $email, $hash);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
     }
 
     public function editinfo() {
-        if (empty($_SESSION['id'])) {
+        if (!$this->is_signed_in()) {
             redirect('/', 'refresh');
         }
         $data['id'] = $this->encryption->decrypt($_SESSION['id']);

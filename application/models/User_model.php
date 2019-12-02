@@ -30,14 +30,15 @@ class User_model extends CI_Model {
         return true;
     }
 
-    public function updating($data) {
-        extract($data);
-        if ($password != "**********")
-            $sql = "UPDATE students SET name = '$name', email = '$email' WHERE student_id = $id";
-        else        
-            $sql = "UPDATE students SET name = '$name', email = '$email', password = '$password' WHERE student_id = $id";
-        
-            $query = $this->db->query($sql, array($data));
+    public function updating($id, $name, $email, $password) {
+        if ($password === "**********") {
+            $sql = "UPDATE students SET name = ?, email = ? WHERE student_id = ?";
+            $this->db->query($sql, array($name, $email, $id));
+        }
+        else {
+            $sql = "UPDATE students SET name = ?, email = ?, password = ? WHERE student_id = ?";
+            $this->db->query($sql, array($name, $email, $password, $id));
+        }
     }
 
     public function get_name($id) {

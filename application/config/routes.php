@@ -65,7 +65,6 @@ $route['search']['POST'] = 'users/search';
 $route['accountpage']['GET'] = 'users/accountpage';
 $route['books/deadlines']['GET'] = 'books/deadline';
 $route['checkouthistory']['GET'] = 'users/checkouthistory';
-$route['userinfo']['GET'] = 'users/userinfo';
 $route['editinfo']['GET'] = 'users/editinfo';
 $route['editinfo']['POST'] = 'users/updateuser';
 $route['download_bookhist']['GET'] = 'books/download_bookhist';

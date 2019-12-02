@@ -26,6 +26,10 @@ html, body {
     background-color: #9e79ff;
 }
 
+#intro {
+    font-size: 1.2rem;
+}
+
 /* label color */
 .input-field label, textarea.materialize-textarea:focus:not([readonly])+label {
     color: #8884FF !important;
