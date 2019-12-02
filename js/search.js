@@ -33,6 +33,15 @@ function articleCheckout(title, author, pubDate) {
     }
 }
 
+function reserve(space_id){
+    if(confirm('Are you sure you want to reserve this study space?')){
+        const studyspaceReserve = new FormData();
+        studyspaceReserve.set('csrf_token', csrf);
+        studyspaceReserve.set('space_id', space_id);
+        reserveSpace('studyspaces/reserveSpace', studyspaceReserve);
+    }
+}
+
 function checkedOut(type) {
     M.toast({
         html: `This ${type} has already been checked out`
