@@ -29,7 +29,33 @@ class User_model extends CI_Model {
         $_SESSION['id'] = $this->encryption->encrypt($query['student_id']);
         return true;
     }
-        
+
+    public function update_db_name($data) {
+        extract($data);
+        $this->db->where('student_id', $id);
+        $this->db->update($table_name, array('name' => $name));
+        return true;
+    }
+
+    public function update_db_email($data) {
+        extract($data);
+        $this->db->where('student_id', $id);
+        $this->db->update($table_name, array('email' => $email));
+        return true;
+    }
+
+    public function get_name($id) {
+        $sql = "SELECT name FROM students WHERE student_id = ?";
+        $query = $this->db->query($sql, array($id));
+        return $query->row_array();
+    }
+     
+    public function get_email($id) {
+        $sql = "SELECT email FROM students WHERE student_id = ?";
+        $query = $this->db->query($sql, array($id));
+        return $query->row_array();
+    }
+
     private function sanitize($data) {
         return htmlspecialchars(trim(stripslashes($data)));
     }

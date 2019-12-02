@@ -35,6 +35,18 @@ class Movies extends CI_Controller {
         echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
     }
 
+    public function deadline() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['deadline'] = $this->movie_model->get_movie_deadline($id);
+        $this->load->view('movies/deadlines', $data);
+    }
+
+    public function history() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['hist'] = $this->movie_model->get_movie_hist($id);
+        $this->load->view('movies/history', $data);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

@@ -64,6 +64,9 @@ $route['search']['GET'] = 'users/search_page';
 $route['search']['POST'] = 'users/search';
 $route['accountpage']['GET'] = 'users/accountpage';
 $route['books/deadlines']['GET'] = 'books/deadline';
+$route['checkouthistory']['GET'] = 'users/checkouthistory';
+$route['userinfo']['GET'] = 'users/userinfo';
+$route['editinfo']['GET'] = 'users/editinfo';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

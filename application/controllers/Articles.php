@@ -43,6 +43,12 @@ class Articles extends CI_Controller {
         $this->load->view('articles/deadlines', $data);
     }
 
+    public function history() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['hist'] = $this->article_model->get_aj_hist($id);
+        $this->load->view('articles/history', $data);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

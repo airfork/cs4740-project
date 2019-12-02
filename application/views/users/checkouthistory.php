@@ -1,46 +1,35 @@
 <?php $this->view('headers/default_header') ?>
 <body>
     <div class="container">
-        <h2>Account</h2>
-        Hello. Here are your currently checked out items.
+        <h2>Checkout History</h2>
         <br>
         <br>
-        
         <ul class="collapsible">
             <li>
             <div class="collapsible-header"><i class="material-icons">book</i>Books</div>
             <div class="collapsible-body grey lighten-4"><span>
-                <?php $this->view('books/deadlines'); ?>
+                <?php $this->view('books/history'); ?>
             </span></div>
             </li>
             <li>
             <div class="collapsible-header"><i class="material-icons">create</i>Articles/Journals</div>
             <div class="collapsible-body grey lighten-4"><span>
-                <?php $this->view('articles/deadlines'); ?>
+                <?php $this->view('articles/history'); ?>
             </span></div>
             </li>
             <li>
             <div class="collapsible-header"><i class="material-icons">movie</i>Movies</div>
             <div class="collapsible-body grey lighten-4"><span>
-                <?php $this->view('movies/deadlines'); ?>
+                <?php $this->view('movies/history'); ?>
             </span></div>
             </li>
             <li>
             <div class="collapsible-header"><i class="material-icons">meeting_room</i>Study Spaces</div>
             <div class="collapsible-body grey lighten-4"><span>
-                <?php $this->view('spaces/deadlines'); ?>
+                <?php $this->view('spaces/history'); ?>
             </span></div>
             </li>
         </ul>
-
-        
-        <?php if ($logged_in) { ?>
-                <li><a href="<?php echo site_url('/checkouthistory'); ?>">View Checkout History</a></li>
-        <?php } ?>
-
-        <?php if ($logged_in) { ?>
-                <li><a href="<?php echo site_url('/userinfo'); ?>">View/Edit Account Information</a></li>
-        <?php } ?>
         
     </div>
     <script src="<?php echo base_url() . 'js/search.js'; ?>"></script>

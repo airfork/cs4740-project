@@ -8,6 +8,7 @@ class Users extends CI_Controller {
         $this->load->model('book_model');
         $this->load->model('movie_model');
         $this->load->model('article_model');
+        $this->load->model('space_model');
         $this->load->helper('url_helper');
         $this->load->library('encryption');
     }
@@ -140,8 +141,66 @@ class Users extends CI_Controller {
         $data['logged_in'] = $this->is_signed_in();
         $data['deadline'] = $this->book_model->get_book_deadline($data['id']);
         $data['deadline_aj'] = $this->article_model->get_aj_deadline($data['id']);
-        
+        $data['deadline_movie'] = $this->movie_model->get_movie_deadline($data['id']);
+        $data['deadline_space'] = $this->space_model->get_space_deadline($data['id']);
+
         $this->load->view('users/accountpage', $data);
+    }
+
+    public function checkouthistory() {
+        if (empty($_SESSION['id'])) {
+            redirect('/', 'refresh');
+        }
+        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
+        $data['logged_in'] = $this->is_signed_in();
+        $data['book_hist'] = $this->book_model->get_book_hist($data['id']);
+        $data['aj_hist'] = $this->article_model->get_aj_hist($data['id']);
+        $data['movie_hist'] = $this->movie_model->get_movie_hist($data['id']);
+        $data['space_hist'] = $this->space_model->get_space_hist($data['id']);
+
+        $this->load->view('users/checkouthistory', $data);
+    }
+
+    public function update_name() {   
+        $data = array(
+            'table_name' => 'students',
+            'id' => $this->encryption->decrypt($_SESSION['id']),
+            'name' => $this->input->post('name')
+        );
+        $this->user_model->update_db_name($data);
+    }
+
+    public function update_email() {   
+        $data = array(
+            'table_name' => 'students',
+            'id' => $this->encryption->decrypt($_SESSION['id']),
+            'email' => $this->input->post('email')
+        );
+        $this->user_model->update_db_email($data);
+    }
+
+    public function userinfo() {
+        if (empty($_SESSION['id'])) {
+            redirect('/', 'refresh');
+        }
+        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
+        $data['logged_in'] = $this->is_signed_in();
+        $data['name'] = $this->user_model->get_name($data['id']);
+        $data['email'] = $this->user_model->get_email($data['id']);
+
+        $this->load->view('users/userinfo', $data);
+    }
+
+    public function editinfo() {
+        if (empty($_SESSION['id'])) {
+            redirect('/', 'refresh');
+        }
+        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
+        $data['logged_in'] = $this->is_signed_in();
+        $data['name'] = $this->user_model->get_name($data['id']);
+        $data['email'] = $this->user_model->get_email($data['id']);
+
+        $this->load->view('users/editinfo', $data);
     }
 
     private function is_signed_in() : bool {

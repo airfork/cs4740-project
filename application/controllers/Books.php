@@ -40,6 +40,12 @@ class Books extends CI_Controller {
         $this->load->view('books/deadlines', $data);
     }
 
+    public function history() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['hist'] = $this->book_model->get_book_hist($id);
+        $this->load->view('books/history', $data);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

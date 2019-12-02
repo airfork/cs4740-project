@@ -34,16 +34,16 @@ class Book_model extends CI_Model {
         $this->db->query($sql, array($id, $isbn));
     }
 
-    public function get_book_hist() {
+    public function get_book_hist($id) {
         // language=sql
-        $sql = "SELECT title, checkout_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ?";
-        $query = $this->db->query($sql);
-        return $query->row_array();
+        $sql = "SELECT title, checkout_date, return_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ? ";
+        $query = $this->db->query($sql, array($id));
+        return $query->result_array();
     }
     
     public function get_book_deadline($id) {
         // language=sql
-        $sql = "SELECT title, return_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ? AND return_date IS NULL";
+        $sql = "SELECT title FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ? AND return_date IS NULL";
         $query = $this->db->query($sql, array($id));
         return $query->result_array();
     }

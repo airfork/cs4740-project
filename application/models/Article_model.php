@@ -35,16 +35,16 @@ class Article_model extends CI_Model {
         $this->db->query($sql, array($id, $author, $title, $pubDate));
     }
 
-    public function get_aj_hist() {
+    public function get_aj_hist($id) {
         // language=sql
-        $sql = "SELECT title, checkout_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
-        $query = $this->db->query($sql, array($student_id));
-        return $query->row_array();
+        $sql = "SELECT title, checkout_date, return_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($id));
+        return $query->result_array();
     }
     
     public function get_aj_deadline($id) {
         // language=sql
-        $sql = "SELECT title, return_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ? AND return_date IS NULL";
+        $sql = "SELECT title FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ? AND return_date IS NULL";
         $query = $this->db->query($sql, array($id));
         return $query->result_array();
     }

@@ -4,10 +4,10 @@
             <th>Title</th>
         </tr>
     </thead>
-    <?php foreach ($deadline as $book): ?>
+    <?php foreach ($deadline_movie as $movie): ?>
     <tbody>
         <tr>
-            <td><?php echo $book['title']; ?></td>
+            <td><?php echo $movie['title']; ?></td>
         </tr>
     </tbody>
     <?php endforeach; ?>

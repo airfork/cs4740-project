@@ -34,16 +34,16 @@ class Movie_model extends CI_Model {
         $this->db->query($sql, array($id, $title, $director));
     }
 
-    public function get_movie_hist() {
+    public function get_movie_hist($id) {
         // language=sql
-        $sql = "SELECT title, checkout_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ?";
-        $query = $this->db->query($sql, array($student_id));
-        return $query->row_array();
+        $sql = "SELECT title, checkout_date, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($id));
+        return $query->result_array();
     }
 
     public function get_movie_deadline($id) {
         // language=sql
-        $sql = "SELECT title, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ? AND return_date IS NULL";
+        $sql = "SELECT title FROM movies NATURAL JOIN movie_checkout WHERE student_id = ? AND return_date IS NULL";
         $query = $this->db->query($sql, array($id));
         return $query->result_array();
     }
