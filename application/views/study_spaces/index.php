@@ -11,7 +11,7 @@ if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) {
         </thead>
         <tbody>
         <?php foreach ($study_spaces as $study_space): ?>
-            <!-- <?php
+            <?php
             $already_reserved = false;
             if($study_space['already_reserved'] != 0) {
                 $already_reserved = true;
@@ -21,7 +21,7 @@ if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) {
             } else {
                 echo "<tr class=\"search-list\" onclick=\"reserve('{$study_space['space_id']}')\">";
             }
-            ?> -->
+            ?>
                 <td>
                     <?php echo $study_space['name']; ?>
                 </td>
