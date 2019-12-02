@@ -9,6 +9,7 @@ class Users extends CI_Controller {
         $this->load->model('movie_model');
         $this->load->model('article_model');
         $this->load->model('space_model');
+        $this->load->model('librarian_model');
         $this->load->helper('url_helper');
         $this->load->library('encryption');
     }
@@ -25,6 +26,9 @@ class Users extends CI_Controller {
     public function main_page() {
         $data['logged_in'] = $this->is_signed_in();
         $data['homepage'] = true;
+        if ($this->is_librarian()) {
+            $data['librarian'] = true;
+        }
         $this->load->view('index', $data);
     }
 
@@ -68,6 +72,8 @@ class Users extends CI_Controller {
                 'name' => $this->security->get_csrf_token_name(),
                 'hash' => $this->security->get_csrf_hash()
             );
+            $data['searchpage'] = true;
+            $data['logged_in'] = $this->is_signed_in();
             $this->load->view('users/search', $data);
         } else {
             switch ($this->input->post('type')) {
@@ -79,6 +85,7 @@ class Users extends CI_Controller {
                     );
                     $data['books'] = $books;
                     $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
                     $this->load->view('users/search', $data);
                     break;
                 case 'movies':
@@ -90,6 +97,7 @@ class Users extends CI_Controller {
                     $data['movies'] = $movies;
                     $data['type'] = 'movies';
                     $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
                     $this->load->view('users/search', $data);
                     break;
                 case 'articles':
@@ -101,6 +109,7 @@ class Users extends CI_Controller {
                     $data['articles'] = $articles;
                     $data['type'] = 'articles';
                     $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
                     $this->load->view('users/search', $data);
                     break;
             }
@@ -119,8 +128,10 @@ class Users extends CI_Controller {
         $email = $this->sanitize($this->input->post('email'));
         $password = $this->input->post('password');
         if(!$this->user_model->check_user($email, $password)) {
-            $this->form_validation->set_message('check_user', 'Email or password is incorrect, please try again.');
-            return FALSE;
+            if (!$this->librarian_model->check_user($email, $password)) {
+                $this->form_validation->set_message('check_user', 'Email or password is incorrect, please try again.');
+                return FALSE;
+            }
         }
         return TRUE;
     }
@@ -210,6 +221,13 @@ class Users extends CI_Controller {
         return true;
     }
 
+    private function is_librarian() : bool {
+        if (empty($_SESSION['lib'])) {
+            return false;
+        }
+        return true;
+    }
+
     private function sanitize($data) {
         return htmlspecialchars(trim(stripslashes($data)));
     }
@@ -219,4 +237,10 @@ class Users extends CI_Controller {
             redirect('/', 'refresh');
         }
     }
+<<<<<<< HEAD
 }
+=======
+
+
+}
+>>>>>>> ca50fb12e4ad65ad5888a5b86c7dd035895cd839

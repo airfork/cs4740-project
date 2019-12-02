@@ -16,6 +16,11 @@ class Articles extends CI_Controller {
             echo json_encode(array('issue' => 'You need to be signed in to checkout an article/journal', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
             return;
         }
+        if ($this->validate_lib()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You cannot checkout items as a Librarian', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
         $author = $this->input->post('author');
         $title = $this->input->post('title');
         $pubDate = $this->input->post('pubDate');
@@ -51,6 +56,14 @@ class Articles extends CI_Controller {
 
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
+            return false;
+        }
+        return true;
+    }
+
+    // Returns true if user is librarian
+    private function validate_lib() {
+        if (empty($_SESSION['lib'])) {
             return false;
         }
         return true;
