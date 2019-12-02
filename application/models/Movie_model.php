@@ -34,10 +34,15 @@ class Movie_model extends CI_Model {
         $this->db->query($sql, array($id, $title, $director));
     }
 
-    public function get_movie_hist($id) {
+    public function get_movie_hist($id, $download=FALSE) {
         // language=sql
         $sql = "SELECT title, checkout_date, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ?";
         $query = $this->db->query($sql, array($id));
+        if ($download) {
+            $name = "movie_checkout.csv";
+            $this->load->helper('download');
+            force_download('file.csv', NULL);
+        }
         return $query->result_array();
     }
 

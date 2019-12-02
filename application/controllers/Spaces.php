@@ -21,6 +21,11 @@ class Spaces extends CI_Controller {
         $this->load->view('books/history', $data);
     }
 
+    public function download_studyhist() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $this->space_model->get_space_hist($id, $download=TRUE);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

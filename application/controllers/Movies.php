@@ -52,6 +52,11 @@ class Movies extends CI_Controller {
         $this->load->view('movies/history', $data);
     }
 
+    public function download_moviehist() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $this->movie_model->get_movie_hist($id, $download=TRUE);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

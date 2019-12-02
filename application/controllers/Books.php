@@ -51,6 +51,11 @@ class Books extends CI_Controller {
         $this->load->view('books/history', $data);
     }
 
+    public function download_bookhist() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $this->book_model->get_book_hist($id, $download=TRUE);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

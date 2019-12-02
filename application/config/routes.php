@@ -68,6 +68,10 @@ $route['checkouthistory']['GET'] = 'users/checkouthistory';
 $route['userinfo']['GET'] = 'users/userinfo';
 $route['editinfo']['GET'] = 'users/editinfo';
 $route['editinfo']['POST'] = 'users/updateuser';
+$route['download_bookhist']['GET'] = 'books/download_bookhist';
+$route['download_ajhist']['GET'] = 'articles/download_ajhist';
+$route['download_moviehist']['GET'] = 'movies/download_moviehist';
+$route['download_studyhist']['GET'] = 'spaces/download_studyhist';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

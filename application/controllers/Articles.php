@@ -54,6 +54,11 @@ class Articles extends CI_Controller {
         $this->load->view('articles/history', $data);
     }
 
+    public function download_ajhist() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $this->article_model->get_aj_hist($id, $download=TRUE);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;
