@@ -93,6 +93,7 @@ function checkout(route, form) {
 
 function reserveSpace(route, form) {
     let request = new XMLHttpRequest();
+    console.log(url+route)
     request.open('POST', url + route, true);
     request.onload = function () {
         if (request.status >= 200 && request.status < 400) {
