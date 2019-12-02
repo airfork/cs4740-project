@@ -5,7 +5,12 @@ class Movie_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get($slug=false) {
+    public function get($slug) {
+        if(strtolower($slug) == 'all') {
+            $sql = "CALL SelectAllMovies()";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
         $search = '%'.$slug.'%';
         $sql = "SELECT m.director, m.title, m.releaseDate,
                 (SELECT count(title) FROM movie_checkout WHERE title = m.title AND director = m.director AND return_date IS NULL) AS checked_out

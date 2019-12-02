@@ -5,7 +5,12 @@ class Article_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get($slug=false) {
+    public function get($slug) {
+        if(strtolower($slug) == 'all') {
+            $sql = "CALL SelectAllArticles()";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
         $search = '%'.$slug.'%';
         $sql = "SELECT aj.title, aj.ajauthor, aj.pubDate, 
                 (SELECT count(title) FROM article_journal_checkout WHERE ajauthor = aj.ajauthor AND title = aj.title AND pubDate = aj.pubDate AND return_date IS NULL) 

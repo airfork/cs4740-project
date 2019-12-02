@@ -6,6 +6,11 @@ class Book_model extends CI_Model {
     }
 
     public function get_books($slug) {
+        if(strtolower($slug) == 'all') {
+            $sql = "CALL SelectAllBooks()";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
         $search = '%'.$slug.'%';
         $sql = "SELECT b.isbn, b.title, b.author, 
                 (SELECT count(student_id) FROM book_checkout WHERE book_id = b.isbn AND return_date IS NULL) AS checked_out
