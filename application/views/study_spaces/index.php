@@ -19,7 +19,7 @@ if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) {
             if ($already_reserved) {
                 echo '<tr class="search-list already_reserved" onclick="alreadyReserved()">';
             } else {
-                echo "<tr class=\"search-list\" onclick=\"reserveSpace('{$study_space['space_id']}')\">";
+                echo "<tr class=\"search-list\" onclick=\"reserve('{$study_space['space_id']}')\">";
             }
             ?> -->
                 <td>
