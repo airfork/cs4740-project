@@ -1,6 +1,7 @@
 <?php
 
 class Users extends CI_Controller {
+    private $web;
     public function __construct() {
         parent::__construct();
         $this->load->library('session');
@@ -12,6 +13,10 @@ class Users extends CI_Controller {
         $this->load->model('librarian_model');
         $this->load->helper('url_helper');
         $this->load->library('encryption');
+        $this->web = base_url();
+        if (getenv('PRODUCTION')) {
+            $this->web = 'https://library4750.herokuapp.com/';
+        }
     }
 
     public function index() {
@@ -44,7 +49,7 @@ class Users extends CI_Controller {
             );
             $this->load->view('users/login', $data);
         } else {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
     }
 
@@ -122,7 +127,7 @@ class Users extends CI_Controller {
     public function logout() {
         session_unset();
         session_destroy();
-        redirect('/', 'refresh');
+        redirect($this->web, 'refresh');
     }
 
     // Checks username and password
@@ -149,7 +154,7 @@ class Users extends CI_Controller {
     
     public function accountpage() {
         if (!$this->is_signed_in()) {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
         $data['id'] = $this->encryption->decrypt($_SESSION['id']);
         $data['logged_in'] = $this->is_signed_in();
@@ -164,7 +169,7 @@ class Users extends CI_Controller {
 
     public function checkouthistory() {
         if (empty($_SESSION['id'])) {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
         $data['id'] = $this->encryption->decrypt($_SESSION['id']);
         $data['logged_in'] = $this->is_signed_in();
@@ -178,7 +183,7 @@ class Users extends CI_Controller {
 
     public function updateuser() {
         if (empty($_SESSION['id'])) {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
         $id = $this->encryption->decrypt($_SESSION['id']);
         $name = $this->sanitize($this->input->post('name'));
@@ -210,7 +215,7 @@ class Users extends CI_Controller {
 
     public function editinfo() {
         if (!$this->is_signed_in()) {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
         $data['id'] = $this->encryption->decrypt($_SESSION['id']);
         $data['logged_in'] = $this->is_signed_in();
@@ -244,7 +249,7 @@ class Users extends CI_Controller {
 
     private function signed_in() {
         if (!empty($_SESSION['id'])) {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
     }
 }

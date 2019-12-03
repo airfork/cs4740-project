@@ -27,11 +27,4 @@ class Spaces extends CI_Controller {
         $this->load->helper('download');
         force_download('space_checkout.csv', NULL);
     }
-
-    private function validate() : bool {
-        if (empty($_SESSION['id'])) {
-            return false;
-        }
-        return true;
-    }
 }
