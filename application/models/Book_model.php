@@ -10,6 +10,7 @@ class Book_model extends CI_Model {
         if(strtolower($slug) == 'all') {
             $sql = "CALL SelectAllBooks()";
             $query = $this->db->query($sql);
+            mysqli_next_result($this->db->conn_id);
             return $query->result_array();
         }
         $search = '%'.$slug.'%';
