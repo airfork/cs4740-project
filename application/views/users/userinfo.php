@@ -2,7 +2,7 @@
 <body>
     <div class="container">
         <h2>Account Information
-        <a href="<?php echo site_url('/editinfo'); ?>" class="waves-effect grey darken-2 btn"><i class="material-icons left">mode_edit</i>Edit</a>
+        <a href="<?php echo $web.'/editinfo'; ?>" class="waves-effect grey darken-2 btn"><i class="material-icons left">mode_edit</i>Edit</a>
         </h2>
         <br>
         <br>
@@ -22,6 +22,6 @@
               <label for="password">Password</label>
           </div>
     </div>
-    <script src="<?php echo base_url() . 'js/search.js'; ?>"></script>
+    <script src="<?php echo $web.'js/search.js'; ?>"></script>
 </body>
 </html>

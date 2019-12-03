@@ -6,7 +6,7 @@
         <?php
         $this->load->helper('form');
         $this->load->library('form_validation');
-        $url = site_url('/');
+        $url = $web;
         ?>
         <input type="hidden" value="<?php echo $url ?>" id="url">
         <form action="<?php echo $url.'search'; ?>" method="post">
@@ -53,6 +53,6 @@
         <?php $this->view('movies/search_results'); ?>
         <?php $this->view('articles/search_results'); ?>
     </div>
-    <script src="<?php echo base_url() . 'js/search.js'; ?>"></script>
+    <script src="<?php echo $web.'js/search.js'; ?>"></script>
 </body>
 </html>

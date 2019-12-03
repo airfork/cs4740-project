@@ -3,7 +3,7 @@
     <?php
     $this->load->helper('form');
     $this->load->library('form_validation');
-    $url = site_url('/login');
+    $url = $web.'login';
     ?>
 
     <section class="align">
