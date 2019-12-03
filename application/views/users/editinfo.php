@@ -1,6 +1,10 @@
 <?php
-    $this->view('headers/default_header');
-    $url = $web.'editinfo';
+$this->view('headers/default_header');
+$web = base_url();
+if (getenv('PRODUCTION')) {
+    $web = 'https://library4750.herokuapp.com/';
+}
+$url = $web . 'editinfo';
 
 ?>
 <body>
@@ -34,12 +38,12 @@
             <i class="material-icons">save</i>
         </a>
         <ul>
-            <li><a href="<?php echo $web.'checkouthistory'; ?>" class="btn-floating tooltipped" id="history-btn"
+            <li><a href="<?php echo $web . 'checkouthistory'; ?>" class="btn-floating tooltipped" id="history-btn"
                    data-position="left" data-tooltip="View Checkout History"><i class="material-icons">history</i></a>
             </li>
         </ul>
     </div>
-    <script src="<?php echo $web.'js/search.js'?>"></script>
-    <script src="<?php echo $web.'js/editUser.js'?>"></script>
+    <script src="<?php echo $web . 'js/search.js' ?>"></script>
+    <script src="<?php echo $web . 'js/editUser.js' ?>"></script>
 </body>
 </html>

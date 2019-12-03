@@ -4,6 +4,9 @@
     $this->load->helper('form');
     $this->load->library('form_validation');
     $url = site_url('/register');
+    if (getenv('PRODUCTION')) {
+        $url = 'https://library4750.herokuapp.com/register';
+    }
     ?>
 
     <section class="align">
