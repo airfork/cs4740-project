@@ -20,7 +20,7 @@ class Studyspaces extends CI_Controller {
             echo json_encode(array('issue' => 'You cannot reserve spaces as a Librarian', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
             return;
         }
-        $space_id = $this->input->post('study_spaces');
+        $space_id = $this->input->post('space_id');
         $already_reserved = $this->studyspaces_model->already_booked($space_id);
         if ($already_reserved['count'] >= 1) {
             header('Content-Type: application/json');
