@@ -126,7 +126,7 @@ class Users extends CI_Controller {
         $this->load->view('users/reserve', $data);
     }
 
-    public function update_inventory(){
+    public function remove_inventory(){
         $study_spacesud = $this->studyspaces_model->getfull();
         $items = $this->studyspaces_model->getitems();
         $logged_in = $this->is_signed_in();
@@ -135,7 +135,19 @@ class Users extends CI_Controller {
             'hash' => $this->security->get_csrf_hash()
         );
         $data = array('study_spacesud' => $study_spacesud, 'items' => $items, 'logged_in' => $logged_in, 'csrf' => $csrf);
-        $this->load->view('users/updateinventory', $data);
+        $this->load->view('users/removeinventory', $data);
+    }
+
+    public function add_inventory(){
+        $study_spacesadd = $this->studyspaces_model->getfull();
+        $itemsadd = $this->studyspaces_model->getitems();
+        $logged_in = $this->is_signed_in();
+        $csrf = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
+        $data = array('study_spacesadd' => $study_spacesadd, 'itemsadd' => $itemsadd, 'logged_in' => $logged_in, 'csrf' => $csrf);
+        $this->load->view('users/addinventory', $data);
     }
 
     public function logout() {

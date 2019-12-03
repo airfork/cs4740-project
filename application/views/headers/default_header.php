@@ -25,6 +25,9 @@
             <?php if ($logged_in) { ?>
                 <li><a href="<?php echo site_url('/users/reserve'); ?>">Reserve</a></li>
             <?php } ?>
+            <?php if (!empty($librarian)) { ?>
+                <li><a href="<?php echo site_url('/users/remove_inventory'); ?>">Remove Items From Studyspace</a></li>
+            <?php } ?>
             <?php if (!$logged_in) { ?>
                 <li><a href="<?php echo site_url('/login'); ?>">Login</a></li>
             <?php } ?>

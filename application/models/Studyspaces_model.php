@@ -77,7 +77,7 @@ class Studyspaces_model extends CI_Model {
     }
 
     public function add_inventory($item_id, $space_id){
-        $sql = "INSERT INTO contains (item_id, space_id) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO contains (item_id, space_id) VALUES (?, ?)";
         $this->db->query($sql, array($item_id, $space_id));
     }
 

@@ -13,7 +13,6 @@ if (!empty($study_spacesud)) { ?>
         <tbody>
         <?php foreach ($study_spacesud as $study_spaced): ?>
             <?php
-                echo implode(", ", $study_spaced);
                 echo "<tr class=\"search-list\" onclick=\"deleteChosenItem('{$study_spaced['item_id']}','{$study_spaced['space_id']}')\">";
             ?>
                 <td>
