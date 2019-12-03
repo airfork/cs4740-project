@@ -7,6 +7,8 @@ if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) {
             <th>Name</th>
             <th>Description</th>
             <th>Location</th>
+            <th>Space Inventory</th>
+            <th>Inventory Description</th>
         </tr>
         </thead>
         <tbody>
@@ -30,6 +32,12 @@ if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) {
                 </td>
                 <td>
                     <?php echo $study_space['location']; ?>
+                </td>
+                <td>
+                    <?php echo $study_space['type']; ?>
+                </td>
+                <td>
+                    <?php echo $study_space['itemdescription']; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

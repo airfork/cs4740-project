@@ -111,7 +111,6 @@ function reserveSpace(route, form) {
                 });
             }
         } else {
-            console.log('reached');
             // We reached our target server, but it returned an error
             M.toast({
                 html: 'There was a problem processing your request, please refresh the page and try again.'

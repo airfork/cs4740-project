@@ -22,6 +22,9 @@
             <?php if (empty($searchpage)) { ?>
                 <li><a href="<?php echo site_url('/search'); ?>">Search</a><li>
             <?php } ?>
+            <?php if ($logged_in) { ?>
+                <li><a href="<?php echo site_url('/users/reserve'); ?>">Reserve</a></li>
+            <?php } ?>
             <?php if (!$logged_in) { ?>
                 <li><a href="<?php echo site_url('/login'); ?>">Login</a></li>
             <?php } ?>
