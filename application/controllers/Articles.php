@@ -9,6 +9,7 @@ class Articles extends CI_Controller {
         $this->load->library('encryption');
     }
 
+    // Checkout article
     public function checkout() {
         if (!$this->validate()) {
             header('Content-Type: application/json');
@@ -39,6 +40,25 @@ class Articles extends CI_Controller {
         $this->article_model->checkout($id, $author, $title, $pubDate);
         header('Content-Type: application/json');
         echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+    }
+
+    public function deadline() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['deadline'] = $this->article_model->get_aj_deadline($id);
+        $this->load->view('articles/deadlines', $data);
+    }
+
+    public function history() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['hist'] = $this->article_model->get_aj_hist($id);
+        $this->load->view('articles/history', $data);
+    }
+
+    public function download_ajhist() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $this->article_model->get_aj_hist($id, TRUE);
+        $this->load->helper('download');
+        force_download('aj_checkout.csv', NULL);
     }
 
     private function validate() : bool {

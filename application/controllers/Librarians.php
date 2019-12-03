@@ -1,6 +1,7 @@
 <?php
 
 class Librarians extends CI_Controller {
+    private $web;
     public function __construct() {
         parent::__construct();
         $this->load->library('session');
@@ -8,6 +9,10 @@ class Librarians extends CI_Controller {
         $this->load->model('librarian_model');
         $this->load->helper('url_helper');
         $this->load->library('email');
+        $this->web = base_url();
+        if (getenv('PRODUCTION')) {
+            $this->web = 'https://library4750.herokuapp.com/';
+        }
     }
 
     public function register() {
@@ -43,7 +48,7 @@ class Librarians extends CI_Controller {
             $password = $this->random_password();
             $_SESSION['id'] = $this->encryption->encrypt($this->user_model->create($password));
             $this->email_password($this->input->post('email'), $password);
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
     }
 
@@ -72,14 +77,14 @@ class Librarians extends CI_Controller {
 
     private function validate() {
         if (empty($_SESSION['id'])) {
-            redirect('/login', 'refresh');
+            redirect($this->web.'login', 'refresh');
         }
     }
 
     private function validate_lib() {
         $this->validate();
         if (empty($_SESSION['lib'])) {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
     }
 }

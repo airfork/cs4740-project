@@ -39,6 +39,25 @@ class Books extends CI_Controller {
         echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
     }
 
+    public function deadline() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['deadline'] = $this->book_model->get_book_deadline($id);
+        $this->load->view('books/deadlines', $data);
+    }
+
+    public function history() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $data['hist'] = $this->book_model->get_book_hist($id);
+        $this->load->view('books/history', $data);
+    }
+
+    public function download_bookhist() {
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $this->book_model->get_book_hist($id, TRUE);
+        $this->load->helper('download');
+        force_download('book_checkout.csv', NULL);
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

@@ -65,6 +65,15 @@ $route['search']['POST'] = 'users/search';
 $route['studyspaces/reserve']['POST'] = 'studyspaces/reserve';
 $route['studyspaces/remove_inventory']['POST'] = 'studyspaces/remove_inventory';
 $route['users/add_inventory']['POST'] = 'users/add_inventory';
+$route['accountpage']['GET'] = 'users/accountpage';
+$route['books/deadlines']['GET'] = 'books/deadline';
+$route['checkouthistory']['GET'] = 'users/checkouthistory';
+$route['editinfo']['GET'] = 'users/editinfo';
+$route['editinfo']['POST'] = 'users/updateuser';
+$route['download_bookhist']['GET'] = 'books/download_bookhist';
+$route['download_ajhist']['GET'] = 'articles/download_ajhist';
+$route['download_moviehist']['GET'] = 'movies/download_moviehist';
+$route['download_studyhist']['GET'] = 'spaces/download_studyhist';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

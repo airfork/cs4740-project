@@ -5,7 +5,13 @@ class Article_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get($slug=false) {
+    public function get($slug) {
+        if(strtolower($slug) == 'all') {
+            $sql = "CALL SelectAllArticles()";
+            $query = $this->db->query($sql);
+            mysqli_next_result($this->db->conn_id);
+            return $query->result_array();
+        }
         $search = '%'.$slug.'%';
         $sql = "SELECT aj.title, aj.ajauthor, aj.pubDate, 
                 (SELECT count(title) FROM article_journal_checkout WHERE ajauthor = aj.ajauthor AND title = aj.title AND pubDate = aj.pubDate AND return_date IS NULL) 
@@ -33,5 +39,32 @@ class Article_model extends CI_Model {
         // language=sql
         $sql = "INSERT INTO article_journal_checkout (student_id, ajauthor, title, pubDate) VALUES (?, ?, ?, ?)";
         $this->db->query($sql, array($id, $author, $title, $pubDate));
+    }
+
+    public function get_aj_hist($id, $download=FALSE) {
+        // language=sql
+        $sql = "SELECT title, checkout_date, return_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
+        $query = $this->db->query($sql, array($id));
+        if ($download) {
+            $this->write_csv($query);
+        }
+        return $query->result_array();
+    }
+
+    private function write_csv($query) {
+        $delimiter = ",";
+        $newline = "\r\n";
+        $enclosure = '"';
+
+        $this->load->helper('file');
+        $this->load->dbutil();
+        write_file('aj_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
+    }
+    
+    public function get_aj_deadline($id) {
+        // language=sql
+        $sql = "SELECT title FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ? AND return_date IS NULL";
+        $query = $this->db->query($sql, array($id));
+        return $query->result_array();
     }
 }

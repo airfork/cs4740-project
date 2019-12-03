@@ -1,6 +1,7 @@
 <?php
 
 class Users extends CI_Controller {
+    private $web;
     public function __construct() {
         parent::__construct();
         $this->load->library('session');
@@ -8,9 +9,15 @@ class Users extends CI_Controller {
         $this->load->model('book_model');
         $this->load->model('movie_model');
         $this->load->model('article_model');
+        $this->load->model('space_model');
         $this->load->model('librarian_model');
         $this->load->model('studyspaces_model');
         $this->load->helper('url_helper');
+        $this->load->library('encryption');
+        $this->web = base_url();
+        if (getenv('PRODUCTION')) {
+            $this->web = 'https://library4750.herokuapp.com/';
+        }
     }
 
     public function index() {
@@ -43,7 +50,7 @@ class Users extends CI_Controller {
             );
             $this->load->view('users/login', $data);
         } else {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
     }
 
@@ -53,6 +60,9 @@ class Users extends CI_Controller {
             'hash' => $this->security->get_csrf_hash()
         );
         $data['logged_in'] = $this->is_signed_in();
+        if ($this->is_librarian()) {
+            $data['librarian'] = true;
+        }
         $data['searchpage'] = true;
         $this->load->view('users/search', $data);
     }
@@ -153,7 +163,7 @@ class Users extends CI_Controller {
     public function logout() {
         session_unset();
         session_destroy();
-        redirect('/', 'refresh');
+        redirect($this->web, 'refresh');
     }
 
     // Checks username and password
@@ -177,6 +187,83 @@ class Users extends CI_Controller {
         }
         return FALSE;
     }
+    
+    public function accountpage() {
+        if (!$this->is_signed_in()) {
+            redirect($this->web, 'refresh');
+        }
+        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
+        $data['logged_in'] = $this->is_signed_in();
+        $data['accountpage'] = true;
+        $data['deadline'] = $this->book_model->get_book_deadline($data['id']);
+        $data['deadline_aj'] = $this->article_model->get_aj_deadline($data['id']);
+        $data['deadline_movie'] = $this->movie_model->get_movie_deadline($data['id']);
+        $data['deadline_space'] = $this->space_model->get_space_deadline($data['id']);
+
+        $this->load->view('users/accountpage', $data);
+    }
+
+    public function checkouthistory() {
+        if (empty($_SESSION['id'])) {
+            redirect($this->web, 'refresh');
+        }
+        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
+        $data['logged_in'] = $this->is_signed_in();
+        $data['book_hist'] = $this->book_model->get_book_hist($data['id']);
+        $data['aj_hist'] = $this->article_model->get_aj_hist($data['id']);
+        $data['movie_hist'] = $this->movie_model->get_movie_hist($data['id']);
+        $data['space_hist'] = $this->space_model->get_space_hist($data['id']);
+
+        $this->load->view('users/checkouthistory', $data);
+    }
+
+    public function updateuser() {
+        if (empty($_SESSION['id'])) {
+            redirect($this->web, 'refresh');
+        }
+        $id = $this->encryption->decrypt($_SESSION['id']);
+        $name = $this->sanitize($this->input->post('name'));
+        $email = $this->sanitize($this->input->post('email'));
+        $password = $this->input->post('password');
+        $hash = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+
+        if (strlen($this->sanitize($name)) < 3 ) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Your name must be at least three characters long', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+
+        if (strlen($this->sanitize($email)) === 0 ) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'The email field cannot be blank', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+
+        if (strlen($password) < 8 ) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Your password must be at least eight characters long', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $this->user_model->updating($id, $name, $email, $hash);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+    }
+
+    public function editinfo() {
+        if (!$this->is_signed_in()) {
+            redirect($this->web, 'refresh');
+        }
+        $data['id'] = $this->encryption->decrypt($_SESSION['id']);
+        $data['logged_in'] = $this->is_signed_in();
+        $data['name'] = $this->user_model->get_name($data['id']);
+        $data['email'] = $this->user_model->get_email($data['id']);
+        $data['csrf'] = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
+
+        $this->load->view('users/editinfo', $data);
+    }
 
     private function is_signed_in() : bool {
         if (empty($_SESSION['id'])) {
@@ -198,9 +285,7 @@ class Users extends CI_Controller {
 
     private function signed_in() {
         if (!empty($_SESSION['id'])) {
-            redirect('/', 'refresh');
+            redirect($this->web, 'refresh');
         }
     }
-
-
 }
