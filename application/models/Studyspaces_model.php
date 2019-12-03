@@ -22,7 +22,7 @@ class Studyspaces_model extends CI_Model {
         while($x < sizeof($intermediate)){
             $space = $intermediate[$x]; //going along in the intermediate array
             if($space['space_id'] == $intermediate[$lastsameindex]['space_id']){
-                $result[$counter]['type'] = $result[$counter]['type'].", ".$space['type'];
+                $result[$counter]['type'] = $result[$counter]['type']." <br/> ".$space['type'];
                 $result[$counter]['itemdescription'] = $result[$counter]['itemdescription']."; ".$space['itemdescription'];
             }
             else{
