@@ -39,6 +39,54 @@ class Studyspaces extends CI_Controller {
         echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
     }
 
+    public function add_inventory() {
+        if (!$this->validate()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You need to be signed in to reserve a study space', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (empty($_SESSION['lib'])) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You must be a librarian to update the inventory', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $item_id = $this->input->post('item_id');
+        $space_id = $this->input->post('space_id');
+        $already_contains = $this->studyspaces_model->already_contains($item_id, $space_id);
+        if ($already_contains['count'] >= 1) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'This study space already contains the item', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $this->studyspaces_model->add_inventory($item_id, $space_id);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+    }
+
+    public function remove_inventory() {
+        if (!$this->validate()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You need to be signed in to reserve a study space', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (empty($_SESSION['lib'])) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You must be a librarian to update the inventory', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $item_id = $this->input->post('item_id');
+        $space_id = $this->input->post('space_id');
+        $already_contains = $this->studyspaces_model->already_contains($item_id, $space_id);
+        if ($already_contains['count'] < 1) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'This study space does not currently contain the item', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $this->studyspaces_model->remove_inventory($item_id, $space_id);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+    }
+
     private function validate() : bool {
         if (empty($_SESSION['id'])) {
             return false;

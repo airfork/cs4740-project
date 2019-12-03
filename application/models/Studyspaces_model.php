@@ -36,6 +36,23 @@ class Studyspaces_model extends CI_Model {
         //return $query->result_array();
     }
 
+    public function getfull() {
+        // $sql = "SELECT s.name, s.description, s.location, s.space_id,
+        //         (SELECT count(student_id) FROM reserves WHERE space_id = s.space_id AND reservedUntil > now()) AS already_reserved 
+        //         FROM study_spaces s";
+        $sql = "SELECT s.space_id, s.name, s.description, s.location, i.item_id, i.type, i.description AS itemdescription, 
+                (SELECT count(student_id) FROM reserves WHERE space_id = s.space_id AND reservedUntil > now()) AS already_reserved 
+                FROM study_spaces s INNER JOIN contains c INNER JOIN inventory i where c.space_id = s.space_id AND c.item_id = i.item_id ORDER BY s.space_id";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function getitems(){
+        $sql = "SELECT i.item_id, i.type, i.description FROM inventory i";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
     public function booking_count($id) {
         // language=sql
         $sql = "SELECT count(student_id) AS count FROM reserves WHERE student_id = ? AND reservedUntil > now()";
@@ -57,5 +74,22 @@ class Studyspaces_model extends CI_Model {
 
         $sql = "INSERT INTO reserves (student_id, space_id, reservedUntil) VALUES (?, ?, ?)";
         $this->db->query($sql, array($student_id, $space_id, $reserved_until));
+    }
+
+    public function add_inventory($item_id, $space_id){
+        $sql = "INSERT INTO contains (item_id, space_id) VALUES (?, ?, ?)";
+        $this->db->query($sql, array($item_id, $space_id));
+    }
+
+    public function remove_inventory($item_id, $space_id){
+        $sql = "DELETE FROM contains WHERE item_id = ? AND space_id = ?";
+        $this->db->query($sql, array($item_id, $space_id));
+    }
+
+    public function already_contains($item_id,$space_id) {
+        // language=sql
+        $sql = "SELECT count(item_id) AS count FROM contains c WHERE c.item_id = ? AND c.space_id = ?";
+        $query = $this->db->query($sql, array($item_id, $space_id));
+        return $query->row_array();
     }
 }

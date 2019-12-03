@@ -123,15 +123,19 @@ class Users extends CI_Controller {
             'hash' => $this->security->get_csrf_hash()
         );
         $data = array('study_spaces' => $study_spaces, 'logged_in' => $logged_in, 'csrf' => $csrf);
-        // echo sizeof($study_spaces);
-        // $data['csrf'] = array(
-        //     'name' => $this->security->get_csrf_token_name(),
-        //     'hash' => $this->security->get_csrf_hash()
-        // );
-        // $data['study_spaces'] = $study_spaces;
-        // $data['logged_in'] = $this->is_signed_in();
-        //$this->load->view('study_spaces/index', $data);
         $this->load->view('users/reserve', $data);
+    }
+
+    public function update_inventory(){
+        $study_spacesud = $this->studyspaces_model->getfull();
+        $items = $this->studyspaces_model->getitems();
+        $logged_in = $this->is_signed_in();
+        $csrf = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
+        $data = array('study_spacesud' => $study_spacesud, 'items' => $items, 'logged_in' => $logged_in, 'csrf' => $csrf);
+        $this->load->view('users/updateinventory', $data);
     }
 
     public function logout() {

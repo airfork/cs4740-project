@@ -42,6 +42,25 @@ function reserve(space_id){
     }
 }
 
+function addItem(item_id, space_id){
+    if(confirm('Are you sure you want to add this item')){
+        const studyspaceReserve = new FormData();
+        studyspaceReserve.set('csrf_token', csrf);
+        studyspaceReserve.set('space_id', space_id);
+        reserveSpace('studyspaces/reserve', studyspaceReserve);
+    }
+}
+
+function deleteChosenItem(item_id, space_id){
+    if(confirm('Are you sure you want to delete this item from the chosen study space?')){
+        const studyspaceDeleteItem = new FormData();
+        studyspaceDeleteItem.set('csrf_token', csrf);
+        studyspaceDeleteItem.set('item_id', item_id);
+        studyspaceDeleteItem.set('space_id', space_id);
+        deleteItem('studyspaces/remove_inventory', studyspaceDeleteItem);
+    }
+}
+
 function checkedOut(type) {
     M.toast({
         html: `This ${type} has already been checked out`
@@ -66,6 +85,43 @@ function checkout(route, form) {
             if (data.valid) {
                 M.toast({
                     html: 'Item has been checked out!'
+                });
+            } else {
+                M.toast({
+                    html: data.issue
+                });
+            }
+        } else {
+            // We reached our target server, but it returned an error
+            M.toast({
+                html: 'There was a problem processing your request, please refresh the page and try again.'
+            });
+        }
+    };
+
+    request.onerror = function () {
+        // There was a connection error of some sort
+        console.log("There was an error of some type, please try again");
+        M.toast({
+            html: 'There was a problem processing your request, please refresh the page and try again.'
+        });
+    };
+
+    request.send(form);
+}
+
+function deleteItem(route, form) {
+    let request = new XMLHttpRequest();
+    request.open('POST', url + route, true);
+    request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+            console.log(request.responseText);
+            const data = JSON.parse(request.responseText);
+            csrf = data.csrf_token;
+            document.getElementById('csrf').value = csrf;
+            if (data.valid) {
+                M.toast({
+                    html: 'Item has been deleted from the study space!'
                 });
             } else {
                 M.toast({
