@@ -43,16 +43,16 @@
                 <li><a href="<?php echo $web.'search'; ?>">Search</a><li>
             <?php } ?>
             <?php if (!$logged_in) { ?>
-                <li><a href="<?php echo $web.'/login'; ?>">Login</a></li>
+                <li><a href="<?php echo $web.'login'; ?>">Login</a></li>
             <?php } ?>
             <?php if(!empty($librarian)) { ?>
-                <li><a href="<?php echo $web.'/register'; ?>">Register</a><li>
+                <li><a href="<?php echo $web.'register'; ?>">Register</a><li>
             <?php } ?>
             <?php if ($logged_in && empty($librarian) && empty($accountpage)) { ?>
-                <li><a href="<?php echo $web.'/accountpage'; ?>">Account</a><li>
+                <li><a href="<?php echo $web.'accountpage'; ?>">Account</a><li>
             <?php } ?>
             <?php if ($logged_in) { ?>
-                <li><a href="<?php echo $web.'/logout'; ?>">Logout</a></li>
+                <li><a href="<?php echo $web.'logout'; ?>">Logout</a></li>
             <?php } ?>
         </ul>
     </div>
