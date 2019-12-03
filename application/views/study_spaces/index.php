@@ -31,6 +31,12 @@ if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) {
                 <td>
                     <?php echo $study_space['location']; ?>
                 </td>
+                <td>
+                    <?php echo $study_space['type']; ?>
+                </td>
+                <td>
+                    <?php echo $study_space['itemdescription']; ?>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
