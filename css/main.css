@@ -53,7 +53,7 @@ html, body {
     color: #8884FF !important;
 }
 
-#search-btn {
+#search-btn, .gen-btn {
     background-color: #8884FF;
     color: #5D576B;
 }

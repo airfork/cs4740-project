@@ -38,7 +38,7 @@ function delete_book(isbn, row) {
         const bookdelete = new FormData();
         bookdelete.set('csrf_token', csrf);
         bookdelete.set('book', isbn);
-        deleteItem('librarians/delete_book', bookdelete, row);
+        deleteItem('librarians/delete_book', bookdelete, row, 'Book');
     }
 }
 
@@ -47,7 +47,7 @@ function delete_movie(title, row) {
         const moviedelete = new FormData();
         moviedelete.set('csrf_token', csrf);
         moviedelete.set('movie', title);
-        deleteItem('librarians/delete_movie', moviedelete, row);
+        deleteItem('librarians/delete_movie', moviedelete, row, 'Movie');
     }
 }
 function delete_article(title, row) {
@@ -55,7 +55,7 @@ function delete_article(title, row) {
         const articledelete = new FormData();
         articledelete.set('csrf_token', csrf);
         articledelete.set('article', title);
-        deleteItem('librarians/delete_article', articledelete, row);
+        deleteItem('librarians/delete_article', articledelete, row, 'Article');
     }
 }
 
@@ -67,7 +67,7 @@ function checkedOut(type) {
     });
 }
 
-function deleteItem(route, form, row) {
+function deleteItem(route, form, row, type) {
     let request = new XMLHttpRequest();
     request.open('POST', url + route, true);
     request.onload = function () {
@@ -78,7 +78,7 @@ function deleteItem(route, form, row) {
             if (data.valid) {
                 row.style.display = 'none';
                 M.toast({
-                    html: 'Item has been deleted out!'
+                    html: type + ' has been successfully deleted!'
                 });
             } else {
                 M.toast({

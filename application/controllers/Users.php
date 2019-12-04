@@ -82,6 +82,9 @@ class Users extends CI_Controller {
             );
             $data['searchpage'] = true;
             $data['logged_in'] = $this->is_signed_in();
+            if ($this->is_librarian()) {
+                $data['librarian'] = true;
+            }
             $this->load->view('users/search', $data);
         } else {
             switch ($this->input->post('type')) {
@@ -94,6 +97,9 @@ class Users extends CI_Controller {
                     $data['books'] = $books;
                     $data['logged_in'] = $this->is_signed_in();
                     $data['searchpage'] = true;
+                    if ($this->is_librarian()) {
+                        $data['librarian'] = true;
+                    }
                     $this->load->view('users/search', $data);
                     break;
                 case 'movies':
@@ -106,6 +112,9 @@ class Users extends CI_Controller {
                     $data['type'] = 'movies';
                     $data['logged_in'] = $this->is_signed_in();
                     $data['searchpage'] = true;
+                    if ($this->is_librarian()) {
+                        $data['librarian'] = true;
+                    }
                     $this->load->view('users/search', $data);
                     break;
                 case 'articles':
@@ -118,6 +127,9 @@ class Users extends CI_Controller {
                     $data['type'] = 'articles';
                     $data['logged_in'] = $this->is_signed_in();
                     $data['searchpage'] = true;
+                    if ($this->is_librarian()) {
+                        $data['librarian'] = true;
+                    }
                     $this->load->view('users/search', $data);
                     break;
             }

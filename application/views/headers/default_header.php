@@ -46,15 +46,21 @@
                 <li><a href="<?php echo site_url('/users/reserve'); ?>">Reserve</a></li>
             <?php } ?>
             <?php if (!empty($librarian)) { ?>
-                <li><a href="<?php echo site_url('/users/remove_inventory'); ?>">Remove Items From Studyspace</a></li>
+<!--                <li><a href="--><?php //echo site_url('/users/remove_inventory'); ?><!--">Remove Items From Studyspace</a></li>-->
             <?php } ?>
             <?php if (!$logged_in) { ?>
                 <li><a href="<?php echo $web.'login'; ?>">Login</a></li>
             <?php } ?>
             <?php if(!empty($librarian)) { ?>
-                <li><a href="<?php echo site_url('/register'); ?>">Register</a><li>
-                <li><a href="<?php echo site_url('/librarians/insert'); ?>">Insert</a><li>
-                <li><a href="<?php echo site_url('/librarians/delete'); ?>">Delete</a><li>
+                <?php if(empty($insert)) { ?>
+                    <li><a href="<?php echo $web . 'librarians/insert'; ?>">Add</a><li>
+                <?php } ?>
+                <?php if(empty($delete)) { ?>
+                    <li><a href="<?php echo $web . 'librarians/delete'; ?>">Delete</a><li>
+                <?php } ?>
+            <?php } ?>
+            <?php if(!empty($librarian)) { ?>
+                <li><a href="<?php echo $web .'register'; ?>">Register</a><li>
             <?php } ?>
             <?php if ($logged_in) { ?>
                 <li><a href="<?php echo $web.'logout'; ?>">Logout</a></li>

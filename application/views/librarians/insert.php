@@ -1,66 +1,147 @@
 <?php $this->view('headers/default_header') ?>
-<body>
-    
-    
-<?php $this->view('headers/login_header') ?>
-<body>
-    <?php
-    $this->load->helper('form');
-    $this->load->library('form_validation');
-    $insert_bookurl = site_url('/librarians/insert_book');
-    $insert_movieurl = site_url('/librarians/insert_movie');
-    $insert_articleurl = site_url('/librarians/insert_article');
-
-    ?>
+<?php
+$this->load->helper('form');
+$this->load->library('form_validation');
+$web = base_url();
+if (getenv('PRODUCTION')) {
+    $web = 'https://library4750.herokuapp.com/';
+}
+$insert_bookurl = $web . 'librarians/insert_book';
+$insert_movieurl = $web . 'librarians/insert_movie';
+$insert_articleurl = $web . 'librarians/insert_article';
+?>
 
 <?php echo validation_errors(); ?>
+<div class="container">
+    <h2>Add New Items</h2>
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header"><i class="material-icons">book</i>Add Book</div>
+            <div class="collapsible-body grey lighten-4">
+                <span>
+                    <form action="<?php echo $insert_bookurl; ?>" method="POST" class="form insert_book">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input id="title" type="text" name="title" value="<?php echo set_value('Title') ?>" required>
+                                <label for="title">Title</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="author" type="text" name="author" value="<?php echo set_value('Author') ?>" required>
+                                <label for="author">Author</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="isbn" type="text" name="ISBN" value="<?php echo set_value('ISBN') ?>" required>
+                                <label for="isbn">ISBN</label>
+                            </div>
+                            <div class="col m4">
+                                <button class="btn btn-small gen-btn" type="submit">Add
+                                    <i class="material-icons right">add</i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>"/>
+                    </form>
+                </span>
+            </div>
+        </li>
 
-<ul class="collapsible">
-    <li>
-      <div class="collapsible-header"><i class="material-icons">filter_drama</i>Insert Book</div>
-      <div class="collapsible-body"><span> 
-        <form action="<?php echo $insert_bookurl;?>" method="POST" class="form insert_book">
+        <li>
+            <div class="collapsible-header"><i class="material-icons">movie</i>Add Movie</div>
+            <div class="collapsible-body grey lighten-4">
+                <span>
+                    <form action="<?php echo $insert_movieurl; ?>" method="POST" class="form insert_movie">
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <input id="m_title" type="text" name="title" value="<?php echo set_value('Title') ?>"
+                                       required>
+                                <label for="m_title">Title</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="director" type="text" name="director"
+                                       value="<?php echo set_value('Director') ?>"
+                                       required>
+                                <label for="director">Director</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="releaseDate" type="date" name="releaseDate"
+                                       value="<?php echo set_value('releaseDate') ?>" required>
+                                <label for="releaseDate">Release Date</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="length" type="number" name="length" value="<?php echo set_value('Length') ?>"
+                                       required>
+                                <label for="length">Length</label>
+                            </div>
+                            <div class="col m4">
+                                <button class="btn btn-small gen-btn" type="submit">Add
+                                    <i class="material-icons right">add</i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>"/>
+                    </form>
+                </span>
+            </div>
+        </li>
 
-          <input id="title" type="text" name="title" class="form__input browser-default" placeholder="Title" value="<?php echo set_value('Title') ?>" required>
-          <input id="title" type="text" name="author" class="form__input browser-default" placeholder="Author" value="<?php echo set_value('Author') ?>" required>
-          <input id="title" type="text" name="ISBN" class="form__input browser-default" placeholder="ISBN" value="<?php echo set_value('ISBN') ?>" required>
-          <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
-          <input type="submit" value="Insert Book">
-          </form>
-        </span></div>
-      
-    </li>
-    <li>
-      <div class="collapsible-header"><i class="material-icons">place</i>Insert Movie</div>
-      <div class="collapsible-body"><span>
-      <form action="<?php echo $insert_movieurl;?>" method="POST" class="form insert_movie">
+        <li>
+            <div class="collapsible-header"><i class="material-icons">note</i>Add Article</div>
+            <div class="collapsible-body grey lighten-4">
+                <span>
+                    <form action="<?php echo $insert_articleurl; ?>" method="POST" class="form insert_article">
+                        <div class="row">
+                            <div class="input-field col s12 m4">
+                                <input id="a_title" type="text" name="title" value="<?php echo set_value('title') ?>" required>
+                                <label for="a_title">Title</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="ajauthor" type="text" name="AJauthor" value="<?php echo set_value('AJauthor') ?>" required>
+                                <label for="ajauthor">Author</label>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <input id="pubdate" type="date" name="pubDate" value="<?php echo set_value('pubDate') ?>" required>
+                                <label for="pubdate">Publication Date</label>
+                            </div>
+                            <div class="col m4">
+                                <button class="btn btn-small gen-btn" type="submit">Add
+                                    <i class="material-icons right">add</i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>"/>
+                    </form>
+                </span>
+            </div>
+        </li>
 
-      <input id="title" type="text" name="title" class="form__input browser-default" placeholder="Title" value="<?php echo set_value('Title') ?>" required>
-          <input id="title" type="text" name="director" class="form__input browser-default" placeholder="Director" value="<?php echo set_value('Director') ?>" required>
-          Release Date: <input id="title" type="date" name="releaseDate" class="form__input browser-default" placeholder="Release Date" value="<?php echo set_value('releaseDate') ?>" required> <br>
-          Length: <input id="title" type="number" name="length" class="form__input browser-default" placeholder="Length" value="<?php echo set_value('Length') ?>" required>
-          <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
-          <input type="submit" value="Insert Movie">   
-</form>     
-        </span></div>
-    </li>
-    <li>
-      <div class="collapsible-header"><i class="material-icons">whatshot</i>Insert Article</div>
-      <div class="collapsible-body"><span> 
-      <form action="<?php echo $insert_articleurl;?>" method="POST" class="form insert_article">
-        <input id="title" type="text" name="title" class="form__input browser-default" placeholder="Title" value="<?php echo set_value('title') ?>" required>
-        <input id="title" type="text" name="AJauthor" class="form__input browser-default" placeholder="Author" value="<?php echo set_value('AJauthor') ?>" required>
-        <input id="title" type="date" name="pubDate" class="form__input browser-default" placeholder="Publication Date" value="<?php echo set_value('pubDate') ?>" required>
-        <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
-        <input type="submit" value="Insert Article">        
-        </form>     
+        <li>
+            <div class="collapsible-header"><i class="material-icons">library_add</i>Add Study Space Item</div>
+            <div class="collapsible-body grey lighten-4">
+                <span>
+                    <form action="" method="POST" class="form">
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <input id="type" type="text" name="type" value="" required>
+                                <label for="type">Item Type</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="description" type="text" name="description" value="" required>
+                                <label for="description">Item Description</label>
+                            </div>
+                            <div class="col m4">
+                                <button class="btn btn-small gen-btn" type="submit">Add
+                                    <i class="material-icons right">add</i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>"/>
+                    </form>
+                </span>
+            </div>
+        </li>
+    </ul>
+</div>
 
-           </span></div>
-    </li>
-  </ul>
-        
 </body>
 <script>M.AutoInit();</script>
-
-
 </html>
