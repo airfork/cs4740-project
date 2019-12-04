@@ -32,7 +32,7 @@ if (getenv('PRODUCTION')) {
                             <label for="isbn">ISBN</label>
                         </div>
                         <div class="col m4">
-                            <button class="btn btn-small" id="search-btn" onclick="addBook()">Add
+                            <button class="btn btn-smal gen-btn" onclick="addBook()">Add
                                 <i class="material-icons right">add</i>
                             </button>
                         </div>

@@ -20,13 +20,11 @@ $url = $web . 'editinfo';
                 <label for="name">Name (First Last)</label>
             </div>
             <div class="input-field col s12">
-                <input value="<?php echo $email['email']; ?>" id="email" type="text" name="email">
+                <input value="<?php echo $email['email']; ?>" id="email" type="email" name="email">
                 <label for="email">Email</label>
             </div>
-        </div>
-        <div class="row">
             <div class="input-field col s12">
-                <input value="**********" id="password" type="text" name="password">
+                <input id="password" type="password" name="password">
                 <label for="password">Password</label>
             </div>
         </div>

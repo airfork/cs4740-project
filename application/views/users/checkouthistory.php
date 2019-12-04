@@ -14,7 +14,7 @@ if (getenv('PRODUCTION')) {
                 <div class="collapsible-body grey lighten-4 center-align"><span>
                 <?php $this->view('books/history'); ?>
                 <br>
-                <a href="<?php echo $web . 'download_bookhist'; ?>">Download Checkout History</a>
+                <a href="<?php echo $web . 'download_bookhist'; ?>" class="down-btn">Download Checkout History</a>
             </span></div>
             </li>
             <li>
@@ -22,7 +22,7 @@ if (getenv('PRODUCTION')) {
                 <div class="collapsible-body grey lighten-4 center-align"><span>
                 <?php $this->view('articles/history'); ?>
                 <br>
-                <a href="<?php echo $web . 'download_ajhist'; ?>">Download Checkout History</a>
+                <a href="<?php echo $web . 'download_ajhist'; ?>" class="down-btn">Download Checkout History</a>
             </span></div>
             </li>
             <li>
@@ -30,7 +30,7 @@ if (getenv('PRODUCTION')) {
                 <div class="collapsible-body grey lighten-4 center-align"><span>
                 <?php $this->view('movies/history'); ?>
                 <br>
-                <a href="<?php echo $web . 'download_moviehist'; ?>">Download Checkout History</a>
+                <a href="<?php echo $web . 'download_moviehist'; ?> " class="down-btn">Download Checkout History</a>
             </span></div>
             </li>
             <li>
@@ -38,7 +38,7 @@ if (getenv('PRODUCTION')) {
                 <div class="collapsible-body grey lighten-4 center-align"><span>
                 <?php $this->view('spaces/history'); ?>
                 <br>
-                <a href="<?php echo $web . 'download_studyhist'; ?>">Download Checkout History</a>
+                <a href="<?php echo $web . 'download_studyhist'; ?>" class="down-btn">Download Checkout History</a>
             </span></div>
             </li>
         </ul>

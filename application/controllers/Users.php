@@ -147,37 +147,6 @@ class Users extends CI_Controller {
         $this->load->view('study_spaces/index', $data);
     }
 
-    public function remove_inventory(){
-        $study_spacesud = $this->space_model->getfull();
-        $items = $this->space_model->getitems();
-        $logged_in = $this->is_signed_in();
-        $csrf = array(
-            'name' => $this->security->get_csrf_token_name(),
-            'hash' => $this->security->get_csrf_hash()
-        );
-        $data = array('study_spacesud' => $study_spacesud, 'items' => $items, 'logged_in' => $logged_in, 'csrf' => $csrf);
-        $this->load->view('users/removeinventory', $data);
-    }
-
-    public function add_inventory(){
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->form_validation->set_message('check_type', 'Please provide a valid type for the search');
-        $this->form_validation->set_rules(
-            'type', 'type', 'required|callback_check_type',
-            array('check_type', 'Please provide a valid type for the search.')
-        );
-        $study_spacesadd = $this->space_model->getfull();
-        $itemsadd = $this->space_model->getitems();
-        $logged_in = $this->is_signed_in();
-        $csrf = array(
-            'name' => $this->security->get_csrf_token_name(),
-            'hash' => $this->security->get_csrf_hash()
-        );
-        $data = array('study_spacesadd' => $study_spacesadd, 'itemsadd' => $itemsadd, 'logged_in' => $logged_in, 'csrf' => $csrf);
-        $this->load->view('users/addinventory', $data);
-    }
-
     public function logout() {
         session_unset();
         session_destroy();
@@ -256,7 +225,12 @@ class Users extends CI_Controller {
             echo json_encode(array('issue' => 'The email field cannot be blank', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
             return;
         }
-
+        if (strlen(trim($password)) === 0) {
+            $this->user_model->updating($id, $name, $email, '');
+            header('Content-Type: application/json');
+            echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
         if (strlen($password) < 8 ) {
             header('Content-Type: application/json');
             echo json_encode(array('issue' => 'Your password must be at least eight characters long', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));

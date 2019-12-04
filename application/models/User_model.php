@@ -31,7 +31,7 @@ class User_model extends CI_Model {
     }
 
     public function updating($id, $name, $email, $password) {
-        if ($password === "**********") {
+        if (strlen(trim($password)) === 0) {
             $sql = "UPDATE students SET name = ?, email = ? WHERE student_id = ?";
             $this->db->query($sql, array($name, $email, $id));
         }

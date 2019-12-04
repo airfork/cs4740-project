@@ -16,12 +16,6 @@ function updateUser() {
         });
         return;
     }
-    if (password.length < 8) {
-        M.toast({
-            html: 'Password must be at least 8 characters long'
-        });
-        return;
-    }
     const updateUser = new FormData();
     updateUser.set('csrf_token', csrf);
     updateUser.set('name', name);
