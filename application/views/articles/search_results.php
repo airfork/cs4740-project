@@ -12,6 +12,9 @@ if (!empty($articles)) { ?>
         <tbody>
         <?php foreach ($articles as $article): ?>
             <?php
+            if (strlen(trim($article['title'])) === 0 || strlen(trim($article['ajauthor'])) === 0 || strlen(trim($article['pubDate'])) === 0) {
+                continue;
+            }
             $checked_out = false;
             if($article['checked_out'] != 0) {
                 $checked_out = true;

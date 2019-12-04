@@ -148,109 +148,130 @@ class Librarians extends CI_Controller {
         $this->load->view('librarians/insert', $data);
     }
 
-    public function insert_book(){
-        $this->validate_lib();
+    public function insert_item() {
+        if (empty($_SESSION['id'])) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You need to be signed in to do this', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (empty($_SESSION['lib'])) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You need to be a librarian to do this', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $type = $this->input->post('type');
+        switch ($type) {
+            case 'book':
+                $this->insert_book();
+                break;
+            case 'movie':
+                $this->insert_movie();
+                break;
+            case 'article':
+                $this->insert_article();
+                break;
+            case 'item':
+//                $this->insert_item();
+                header('Content-Type: application/json');
+                echo json_encode(array('issue' => 'Not ready yet', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+                break;
+            default:
+                header('Content-Type: application/json');
+                echo json_encode(array('issue' => 'Invalid request', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+                return;
+        }
+    }
+
+    private function insert_book(){
         $isbn = $this->sanitize($this->input->post('ISBN'));
         $title = $this->sanitize($this->input->post('title'));
         $author = $this->sanitize($this->input->post('author'));
 
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->load->library('encryption');
-        $this->form_validation->set_rules(
-            'ISBN', 'ISBN',
-            'required|is_unique[books.isbn]',
-            array(
-                'required'      => 'You have not provided a %s.',
-                'is_unique'     => 'This %s already exists.'
-            )
-        );
-        $this->form_validation->set_rules('title', 'title', 'required|min_length[3]|max_length[100]');
-        $this->form_validation->set_rules('author', 'author', 'required|min_length[3]|max_length[100]');
-        if ($this->form_validation->run() === FALSE) {
-            $data['logged_in'] = $this->is_signed_in();
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $data['librarian'] = true;
-            $this->load->view('librarians/insert', $data);
-        } else {
-            $data['logged_in'] = $this->is_signed_in();
-            $this->book_model->insert_book($isbn, $title, $author);
-            $this->load->view('librarians/insert_success', $data);
+        if (strlen($isbn) < 10) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'ISBN must be at least ten characters', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
         }
-    }   
+        if (strlen($title) < 2) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Title must be at least two characters', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (strlen($author) < 2) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Author must be at least two characters', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $this->book_model->insert_book($isbn, $title, $author);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+        return;
+    }
 
-    public function insert_movie(){
-        $this->validate_lib();
+    private function insert_movie(){
         $title = $this->sanitize($this->input->post('title'));
         $director = $this->sanitize($this->input->post('director'));
         $releaseDate = $this->sanitize($this->input->post('releaseDate'));
         $length = $this->sanitize($this->input->post('length'));
 
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->load->library('encryption');
-        $this->form_validation->set_rules(
-            'title', 'title',
-            'required|is_unique[movies.title]',
-            array(
-                'required'      => 'You have not provided a %s.',
-                'is_unique'     => 'This %s already exists.'
-            )
-        );
-        $this->form_validation->set_rules('director', 'director', 'required|min_length[3]|max_length[100]');
-        $this->form_validation->set_rules('releaseDate', 'releaseDate', 'required');
-        $this->form_validation->set_rules('length', 'length', 'required');
-        if ($this->form_validation->run() === FALSE) {
-            $data['logged_in'] = $this->is_signed_in();
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $data['librarian'] = true;
-            $this->load->view('librarians/insert', $data);
-        } else {
-            $data['logged_in'] = $this->is_signed_in();
-            $this->movie_model->insert_movie($title, $director, $releaseDate, $length);
-            $this->load->view('librarians/insert_success', $data);
+        if (strlen($title) < 2) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Title must be at least two characters', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
         }
-    }   
+        if (strlen($director) < 2) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Director must be at least two characters', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (strlen($releaseDate) === 0) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Please provide a date', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (!is_numeric($length)) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Length must be a valid number', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if ($length < 5) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Length must be at least 5 minutes long', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
 
-    public function insert_article(){
-        $this->validate_lib();
+        $this->movie_model->insert_movie($title, $director, $releaseDate, $length);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+        return;
+    }
+
+    private function insert_article(){
         $title = $this->sanitize($this->input->post('title'));
-        $AJauthor = $this->sanitize($this->input->post('AJauthor'));
+        $ajauthor = $this->sanitize($this->input->post('ajauthor'));
         $pubDate = $this->sanitize($this->input->post('pubDate'));
 
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->load->library('encryption');
-        $this->form_validation->set_rules(
-            'title', 'title',
-            'required|is_unique[articles_journals.title]',
-            array(
-                'required'      => 'You have not provided a %s.',
-                'is_unique'     => 'This %s already exists.'
-            )
-        );
-        $this->form_validation->set_rules('AJauthor', 'AJauthor', 'required|min_length[3]|max_length[100]');
-        $this->form_validation->set_rules('pubDate', 'pubDate', 'required');
-        if ($this->form_validation->run() === FALSE) {
-            $data['logged_in'] = $this->is_signed_in();
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $data['librarian'] = true;
-            $this->load->view('librarians/insert', $data);
-        } else {
-            $data['logged_in'] = $this->is_signed_in();
-            $this->article_model->insert_article($title, $AJauthor, $pubDate);
-            $this->load->view('librarians/insert_success', $data);
+        if (strlen($title) < 2) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Title must be at least two characters', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
         }
-    }   
+        if (strlen($ajauthor) < 2) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Author must be at least two characters', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (strlen($pubDate) === 0) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'Please provide a date', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+
+        $this->article_model->insert_article($title, $ajauthor, $pubDate);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+        return;
+    }
 
     public function search() {
         $this->load->helper('form');

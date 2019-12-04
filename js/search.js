@@ -59,8 +59,6 @@ function delete_article(title, row) {
     }
 }
 
-
-
 function checkedOut(type) {
     M.toast({
         html: `This ${type} has already been checked out`

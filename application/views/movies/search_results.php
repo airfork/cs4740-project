@@ -12,8 +12,11 @@ if (!empty($movies)) { ?>
         <tbody>
         <?php foreach ($movies as $movie): ?>
             <?php
+            if (strlen(trim($movie['title'])) === 0 || strlen(trim($movie['director'])) === 0) {
+                continue;
+            }
             $checked_out = false;
-            if($movie['checked_out'] != 0) {
+            if ($movie['checked_out'] != 0) {
                 $checked_out = true;
             }
             if ($checked_out) {
@@ -22,15 +25,15 @@ if (!empty($movies)) { ?>
                 echo "<tr class=\"search-list\" onclick=\"movieCheckout('{$movie['title']}', '{$movie['director']}')\">";
             }
             ?>
-                <td>
-                    <?php echo $movie['title']; ?>
-                </td>
-                <td>
-                    <?php echo $movie['director']; ?>
-                </td>
-                <td>
-                    <?php echo $movie['releaseDate']; ?>
-                </td>
+            <td>
+                <?php echo $movie['title']; ?>
+            </td>
+            <td>
+                <?php echo $movie['director']; ?>
+            </td>
+            <td>
+                <?php echo $movie['releaseDate']; ?>
+            </td>
             </tr>
         <?php endforeach; ?>
         </tbody>

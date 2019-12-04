@@ -11,6 +11,9 @@ if (!empty($books)) { ?>
         <tbody>
         <?php foreach ($books as $book): ?>
             <?php
+            if (strlen(trim($book['title'])) === 0 || strlen(trim($book['author'])) === 0) {
+                continue;
+            }
             $checked_out = false;
             if($book['checked_out'] != 0) {
                 $checked_out = true;

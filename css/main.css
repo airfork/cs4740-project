@@ -35,17 +35,17 @@ html, body {
     color: #8884FF !important;
 }
 /* label focus color */
-.input-field input[type=text]:focus + label, .input-field input[type=number]:focus + label, .input-field input[type=email]:focus + label {
+.input-field input[type=text]:focus + label, .input-field input[type=number]:focus + label, .input-field input[type=email]:focus + label, .input-field input[type=date]:focus + label {
     color: #8884FF !important;
 }
 /* label underline focus color */
-.input-field input[type=text]:focus, textarea.materialize-textarea:focus, .input-field input[type=number]:focus, .input-field input[type=email]:focus {
+.input-field input[type=text]:focus, textarea.materialize-textarea:focus, .input-field input[type=number]:focus, .input-field input[type=email]:focus, .input-field input[type=date]:focus {
     border-bottom: 1px solid #ff94c2 !important;
     -webkit-box-shadow: 0 1px 0 0 #ff94c2 !important;
     box-shadow: 0 1px 0 0 #ff94c2 !important;
 }
 
-.input-field input[type=text], textarea.materialize-textarea, .input-field input[type=number], .input-field input[type=email] {
+.input-field input[type=text], textarea.materialize-textarea, .input-field input[type=number], .input-field input[type=email], .input-field input[type=date] {
     border-bottom: 1px solid #8884FF !important;
 }
 
@@ -53,7 +53,7 @@ html, body {
     color: #8884FF !important;
 }
 
-#search-btn, .gen-btn {
+#search-btn, .gen-btn, .gen-btn:hover {
     background-color: #8884FF;
     color: #5D576B;
 }
