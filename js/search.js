@@ -29,15 +29,37 @@ function articleCheckout(title, author, pubDate) {
         articleCheckout.set('title', title);
         articleCheckout.set('author', author);
         articleCheckout.set('pubDate', pubDate);
-        checkout('articles/checkout', articleCheckout);
+        deleteItem('articles/delete_article', articledelete, row);
     }
 }
 
-function delete_book(isbn) {
+function delete_book(isbn, row) {
     if (confirm('Are you sure you want to delete this book?')) {
-        
+        const bookdelete = new FormData();
+        bookdelete.set('csrf_token', csrf);
+        bookdelete.set('book', isbn);
+        deleteItem('librarians/delete_book', bookdelete, row);
     }
 }
+
+function delete_movie(title, row) {
+    if (confirm('Are you sure you want to delete this movie?')) {
+        const moviedelete = new FormData();
+        moviedelete.set('csrf_token', csrf);
+        moviedelete.set('movie', title);
+        deleteItem('librarians/delete_movie', moviedelete, row);
+    }
+}
+function delete_article(title, row) {
+    if (confirm('Are you sure you want to delete this article?')) {
+        const articledelete = new FormData();
+        articledelete.set('csrf_token', csrf);
+        articledelete.set('article', title);
+        deleteItem('librarians/delete_article', articledelete, row);
+    }
+}
+
+
 
 function checkedOut(type) {
     M.toast({
@@ -45,7 +67,7 @@ function checkedOut(type) {
     });
 }
 
-function deleteItem(route, form) {
+function deleteItem(route, form, row) {
     let request = new XMLHttpRequest();
     request.open('POST', url + route, true);
     request.onload = function () {
@@ -54,6 +76,7 @@ function deleteItem(route, form) {
             csrf = data.csrf_token;
             document.getElementById('csrf').value = csrf;
             if (data.valid) {
+                row.style.display = 'none';
                 M.toast({
                     html: 'Item has been deleted out!'
                 });

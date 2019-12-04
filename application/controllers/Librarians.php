@@ -7,6 +7,8 @@ class Librarians extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('librarian_model');
         $this->load->model('book_model');
+        $this->load->model('movie_model');
+        $this->load->model('article_model');
         $this->load->helper('url_helper');
         $this->load->library('email');
     }
@@ -92,123 +94,7 @@ class Librarians extends CI_Controller {
         return true;
     }
 
-    /*
-    public function insert() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->form_validation->set_message('check_type', 'Please provide a valid type for the insertion');
-        $this->form_validation->set_rules(
-            'type', 'type', 'required|callback_check_type',
-            array('check_type', 'Please provide a valid type for the insertion.')
-        );
-        $this->form_validation->set_rules('search', 'search term', 'trim|required|min_length[2]|max_length[100]');
-        if ($this->form_validation->run() === FALSE) {
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $data['searchpage'] = true;
-            $data['logged_in'] = $this->is_signed_in();
-            $this->load->view('users/search', $data);
-        } else {
-            switch ($this->input->post('type')) {
-                case 'books':
-                    $books = $this->book_model->get_books($this->sanitize($this->input->post('search')));
-                    $data['csrf'] = array(
-                        'name' => $this->security->get_csrf_token_name(),
-                        'hash' => $this->security->get_csrf_hash()
-                    );
-                    $data['books'] = $books;
-                    $data['logged_in'] = $this->is_signed_in();
-                    $data['searchpage'] = true;
-                    $this->load->view('users/search', $data);
-                    break;
-                case 'movies':
-                    $movies = $this->movie_model->get($this->sanitize($this->input->post('search')));
-                    $data['csrf'] = array(
-                        'name' => $this->security->get_csrf_token_name(),
-                        'hash' => $this->security->get_csrf_hash()
-                    );
-                    $data['movies'] = $movies;
-                    $data['type'] = 'movies';
-                    $data['logged_in'] = $this->is_signed_in();
-                    $data['searchpage'] = true;
-                    $this->load->view('users/search', $data);
-                    break;
-                case 'articles':
-                    $articles = $this->article_model->get($this->sanitize($this->input->post('search')));
-                    $data['csrf'] = array(
-                        'name' => $this->security->get_csrf_token_name(),
-                        'hash' => $this->security->get_csrf_hash()
-                    );
-                    $data['articles'] = $articles;
-                    $data['type'] = 'articles';
-                    $data['logged_in'] = $this->is_signed_in();
-                    $data['searchpage'] = true;
-                    $this->load->view('users/search', $data);
-                    break;
-            }
-        }
-    }
-    public function insert() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->form_validation->set_message('check_type', 'Please provide a valid type for the insertion');
-        $this->form_validation->set_rules(
-            'type', 'type', 'required|callback_check_type',
-            array('check_type', 'Please provide a valid type for the insertion.')
-        );
-        $this->form_validation->set_rules('search', 'search term', 'trim|required|min_length[2]|max_length[100]');
-        if ($this->form_validation->run() === FALSE) {
-            $data['csrf'] = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $data['searchpage'] = true;
-            $data['logged_in'] = $this->is_signed_in();
-            $this->load->view('users/search', $data);
-        } else {
-            switch ($this->input->post('type')) {
-                case 'books':
-                    $books = $this->book_model->get_books($this->sanitize($this->input->post('search')));
-                    $data['csrf'] = array(
-                        'name' => $this->security->get_csrf_token_name(),
-                        'hash' => $this->security->get_csrf_hash()
-                    );
-                    $data['books'] = $books;
-                    $data['logged_in'] = $this->is_signed_in();
-                    $data['searchpage'] = true;
-                    $this->load->view('users/search', $data);
-                    break;
-                case 'movies':
-                    $movies = $this->movie_model->get($this->sanitize($this->input->post('search')));
-                    $data['csrf'] = array(
-                        'name' => $this->security->get_csrf_token_name(),
-                        'hash' => $this->security->get_csrf_hash()
-                    );
-                    $data['movies'] = $movies;
-                    $data['type'] = 'movies';
-                    $data['logged_in'] = $this->is_signed_in();
-                    $data['searchpage'] = true;
-                    $this->load->view('users/search', $data);
-                    break;
-                case 'articles':
-                    $articles = $this->article_model->get($this->sanitize($this->input->post('search')));
-                    $data['csrf'] = array(
-                        'name' => $this->security->get_csrf_token_name(),
-                        'hash' => $this->security->get_csrf_hash()
-                    );
-                    $data['articles'] = $articles;
-                    $data['type'] = 'articles';
-                    $data['logged_in'] = $this->is_signed_in();
-                    $data['searchpage'] = true;
-                    $this->load->view('users/search', $data);
-                    break;
-            }
-        }
-    }
-
-*/
+    
     public function delete() {
         $this->validate_lib();
         $data['logged_in'] = $this->is_signed_in();
@@ -218,6 +104,32 @@ class Librarians extends CI_Controller {
         );
         $this->load->view('librarians/delete', $data);
     }
+
+    public function delete_book(){
+        $this->validate_lib();
+        $isbn = $this->input->post('book');
+        $this->book_model->delete_book($isbn);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+
+    }
+
+    public function delete_movie(){
+        $this->validate_lib();
+        $title = $this->input->post('movie');
+        $this->movie_model->delete_movie($title);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+    }
+
+    public function delete_article(){
+        $this->validate_lib();
+        $title = $this->input->post('article');
+        $this->article_model->delete_article($title);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+    }
+
     public function insert() {
         $this->validate_lib();
         $data['logged_in'] = $this->is_signed_in();
@@ -227,6 +139,108 @@ class Librarians extends CI_Controller {
         );
         $this->load->view('librarians/insert', $data);
     }
+
+    public function insert_book(){
+        $this->validate_lib();
+        $isbn = $this->sanitize($this->input->post('ISBN'));
+        $title = $this->sanitize($this->input->post('title'));
+        $author = $this->sanitize($this->input->post('author'));
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->load->library('encryption');
+        $this->form_validation->set_rules(
+            'ISBN', 'ISBN',
+            'required|is_unique[books.isbn]',
+            array(
+                'required'      => 'You have not provided a %s.',
+                'is_unique'     => 'This %s already exists.'
+            )
+        );
+        $this->form_validation->set_rules('title', 'title', 'required|min_length[3]|max_length[100]');
+        $this->form_validation->set_rules('author', 'author', 'required|min_length[3]|max_length[100]');
+        if ($this->form_validation->run() === FALSE) {
+            $data['logged_in'] = $this->is_signed_in();
+            $data['csrf'] = array(
+                'name' => $this->security->get_csrf_token_name(),
+                'hash' => $this->security->get_csrf_hash()
+            );
+            //redirect('librarians/insert', 'refresh');
+            $this->load->view('librarians/insert', $data);
+        } else {
+            $data['logged_in'] = $this->is_signed_in();
+            $this->book_model->insert_book($isbn, $title, $author);
+            $this->load->view('librarians/insert_success', $data);
+        }
+    }   
+
+    public function insert_movie(){
+        $this->validate_lib();
+        $title = $this->sanitize($this->input->post('title'));
+        $director = $this->sanitize($this->input->post('director'));
+        $releaseDate = $this->sanitize($this->input->post('releaseDate'));
+        $length = $this->sanitize($this->input->post('length'));
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->load->library('encryption');
+        $this->form_validation->set_rules(
+            'title', 'title',
+            'required|is_unique[movies.title]',
+            array(
+                'required'      => 'You have not provided a %s.',
+                'is_unique'     => 'This %s already exists.'
+            )
+        );
+        $this->form_validation->set_rules('director', 'director', 'required|min_length[3]|max_length[100]');
+        $this->form_validation->set_rules('releaseDate', 'releaseDate', 'required');
+        $this->form_validation->set_rules('length', 'length', 'required');
+        if ($this->form_validation->run() === FALSE) {
+            $data['logged_in'] = $this->is_signed_in();
+            $data['csrf'] = array(
+                'name' => $this->security->get_csrf_token_name(),
+                'hash' => $this->security->get_csrf_hash()
+            );
+            $this->load->view('librarians/insert', $data);
+        } else {
+            $data['logged_in'] = $this->is_signed_in();
+            $this->movie_model->insert_movie($title, $director, $releaseDate, $length);
+            $this->load->view('librarians/insert_success', $data);
+        }
+    }   
+
+    public function insert_article(){
+        $this->validate_lib();
+        $title = $this->sanitize($this->input->post('title'));
+        $AJauthor = $this->sanitize($this->input->post('AJauthor'));
+        $pubDate = $this->sanitize($this->input->post('pubDate'));
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->load->library('encryption');
+        $this->form_validation->set_rules(
+            'title', 'title',
+            'required|is_unique[articles_journals.title]',
+            array(
+                'required'      => 'You have not provided a %s.',
+                'is_unique'     => 'This %s already exists.'
+            )
+        );
+        $this->form_validation->set_rules('AJauthor', 'AJauthor', 'required|min_length[3]|max_length[100]');
+        $this->form_validation->set_rules('pubDate', 'pubDate', 'required');
+        if ($this->form_validation->run() === FALSE) {
+            $data['logged_in'] = $this->is_signed_in();
+            $data['csrf'] = array(
+                'name' => $this->security->get_csrf_token_name(),
+                'hash' => $this->security->get_csrf_hash()
+            );
+            $this->load->view('librarians/insert', $data);
+        } else {
+            $data['logged_in'] = $this->is_signed_in();
+            $this->article_model->insert_article($title, $AJauthor, $pubDate);
+            $this->load->view('librarians/insert_success', $data);
+        }
+    }   
 
 
     /*public function add_item(){
@@ -279,7 +293,7 @@ class Librarians extends CI_Controller {
                     $data['type'] = 'movies';
                     $data['logged_in'] = $this->is_signed_in();
                     $data['searchpage'] = true;
-                    $this->load->view('users/search', $data);
+                    $this->load->view('librarians/delete', $data);
                     break;
                 case 'articles':
                     $articles = $this->article_model->get($this->sanitize($this->input->post('search')));
@@ -291,11 +305,70 @@ class Librarians extends CI_Controller {
                     $data['type'] = 'articles';
                     $data['logged_in'] = $this->is_signed_in();
                     $data['searchpage'] = true;
-                    $this->load->view('users/search', $data);
+                    $this->load->view('librarians/delete', $data);
                     break;
             }
         }
     }
+
+    /*public function searchin() {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->form_validation->set_message('check_type', 'Please provide a valid type for the search');
+        $this->form_validation->set_rules(
+            'type', 'type', 'required|callback_check_type',
+            array('check_type', 'Please provide a valid type for the search.')
+        );
+        $this->form_validation->set_rules('search', 'search term', 'trim|required|min_length[2]|max_length[100]');
+        if ($this->form_validation->run() === FALSE) {
+            $data['csrf'] = array(
+                'name' => $this->security->get_csrf_token_name(),
+                'hash' => $this->security->get_csrf_hash()
+            );
+            $data['searchpage'] = true;
+            $data['logged_in'] = $this->is_signed_in();
+            $this->load->view('librarians/insert', $data);
+        } else {
+            switch ($this->input->post('type')) {
+                case 'books':
+                    $books = $this->book_model->get_books($this->sanitize($this->input->post('search')));
+                    $data['csrf'] = array(
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    );
+                    $data['books'] = $books;
+                    $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
+                    $this->load->view('librarians/insert', $data);
+                    break;
+                case 'movies':
+                    $movies = $this->movie_model->get($this->sanitize($this->input->post('search')));
+                    $data['csrf'] = array(
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    );
+                    $data['movies'] = $movies;
+                    $data['type'] = 'movies';
+                    $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
+                    $this->load->view('users/searchin', $data);
+                    break;
+                case 'articles':
+                    $articles = $this->article_model->get($this->sanitize($this->input->post('search')));
+                    $data['csrf'] = array(
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    );
+                    $data['articles'] = $articles;
+                    $data['type'] = 'articles';
+                    $data['logged_in'] = $this->is_signed_in();
+                    $data['searchpage'] = true;
+                    $this->load->view('librarians/searchin', $data);
+                    break;
+            }
+        }
+    }*/
+
 
     public function check_type(): bool {
         $type = $this->sanitize($this->input->post('type'));

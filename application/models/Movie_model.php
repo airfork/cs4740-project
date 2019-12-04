@@ -33,4 +33,18 @@ class Movie_model extends CI_Model {
         $sql = "INSERT INTO movie_checkout (student_id, title, director) VALUES (?, ?, ?)";
         $this->db->query($sql, array($id, $title, $director));
     }
+
+    public function delete_movie($title) {
+        //language = sql
+        $sql = "DELETE FROM movies WHERE title = ?";
+        $query = $this->db->query($sql, array($title));
+    }
+    
+    public function insert_movie($title, $director, $releaseDate, $length){
+        //language = sql
+        $sql = "INSERT INTO movies(title, director, releaseDate, length) VALUES (?, ?, ?, ?)";
+        $query = $this->db->query($sql, array($title, $director, $releaseDate, $length));
+        return $this->db->insert_id();
+
+    }
 }

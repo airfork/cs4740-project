@@ -50,17 +50,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'users/main_page';
-
+$route['articles']['GET'] = 'articles/view_all';
 $route['articles/checkout']['POST'] = 'articles/checkout';
 $route['books']['GET'] = 'books/view_all';
 $route['books/checkout']['POST'] = 'books/checkout';
 $route['librarians/delete']['GET'] = 'librarians/delete';
 $route['librarians/delete']['post'] = 'librarians/search';
+$route['librarians/delete_book']['post'] = 'librarians/delete_book';
+$route['librarians/delete_movie']['post'] = 'librarians/delete_movie';
+$route['librarians/delete_article']['post'] = 'librarians/delete_article';
 $route['librarians/insert']['GET'] = 'librarians/insert';
+$route['librarians/insert_book']['POST'] = 'librarians/insert_book';
+$route['librarians/insert_movie']['POST'] = 'librarians/insert_movie';
+$route['librarians/insert_article']['POST'] = 'librarians/insert_article';
 $route['login']['GET'] = 'users/index';
 $route['login']['POST'] = 'users/login';
 $route['logout']['GET'] = 'users/logout';
 $route['movies/checkout']['POST'] = 'movies/checkout';
+$route['movies']['GET'] = 'movies/view_all';
 $route['register']['GET'] = 'librarians/register';
 $route['register']['POST'] = 'librarians/create';
 $route['search']['GET'] = 'users/search_page';

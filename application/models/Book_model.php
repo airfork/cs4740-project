@@ -34,10 +34,24 @@ class Book_model extends CI_Model {
         $this->db->query($sql, array($id, $isbn));
     }
 
-    public function delete_book($isbn){
-        $sql = "DELETE FROM book VALUES(?)";
-        $this->db->query($sql, array($isbn));
-
+    public function delete_book($isbn) {
+        //language = sql
+        $sql = "DELETE FROM books WHERE isbn = ?";
+        $query = $this->db->query($sql, array($isbn));
     }
+    /*
+    public function insert() {
+        // language=sql
+        $sql = "INSERT INTO books (ISBN, title, author) VALUES (?, ?, ?)";
+        $query = $this->db->query($sql, array($ISBN, $title, $author));
+        return $this->db->insert_id();
+    }*/
     
+    public function insert_book($ISBN, $title, $author) {
+        // language=sql
+        $sql = "INSERT INTO books(ISBN, title, author) VALUES (?, ?, ?)";
+        $query = $this->db->query($sql, array($ISBN, $title, $author));
+        return $this->db->insert_id();
+    }
+
 }

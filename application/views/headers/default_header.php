@@ -18,10 +18,16 @@
         <ul id="nav-mobile" class="right">
             <?php if (empty($homepage)) { ?>
                 <li><a href="<?php echo base_url() ?>">Home</a></li>
+                <li><a href="<?php echo site_url('/librarians/delete'); ?>">Delete</a></li>
+                <li><a href="<?php echo site_url('/librarians/insert'); ?>">Insert</a><li>
             <?php } ?>
+
             <?php if (empty($searchpage)) { ?>
                 <li><a href="<?php echo site_url('/search'); ?>">Search</a><li>
             <?php } ?>
+
+            
+
             <?php if (!$logged_in) { ?>
                 <li><a href="<?php echo site_url('/login'); ?>">Login</a></li>
             <?php } ?>
