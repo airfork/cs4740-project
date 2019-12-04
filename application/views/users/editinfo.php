@@ -5,7 +5,6 @@ if (getenv('PRODUCTION')) {
     $web = 'https://library4750.herokuapp.com/';
 }
 $url = $web . 'editinfo';
-
 ?>
 <body>
     <div class="container">
