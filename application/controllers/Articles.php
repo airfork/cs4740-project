@@ -75,4 +75,46 @@ class Articles extends CI_Controller {
         }
         return true;
     }
+
+
+    private function insert_article(){
+        if (!$this->validate()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You need to be signed in to insert a book', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (!$this->validate_lib()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You cannot insert items as a Librarian', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $isbn = $this->input->post('article');
+        $this->book_model->insert_article($id, $isbn);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+
+    }
+
+    private function delete_article(){
+        if (!$this->validate()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You need to be signed in to delete a book', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        if (!$this->validate_lib()) {
+            header('Content-Type: application/json');
+            echo json_encode(array('issue' => 'You cannot delete items as a Librarian', 'valid' => false, 'csrf_token' => $this->security->get_csrf_hash()));
+            return;
+        }
+        $isbn = $this->input->post('article');
+        $this->book_model->delete_article($id, $isbn);
+        header('Content-Type: application/json');
+        echo json_encode(array('valid' => true, 'csrf_token' => $this->security->get_csrf_hash()));
+
+
+    }
+
+
+
+
 }

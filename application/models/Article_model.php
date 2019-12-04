@@ -67,4 +67,17 @@ class Article_model extends CI_Model {
         $query = $this->db->query($sql, array($id));
         return $query->result_array();
     }
+
+    public function delete_article($title) {
+        //language = sql
+        $sql = "DELETE FROM articles_journals WHERE title = ?";
+        $query = $this->db->query($sql, array($title));
+    }
+
+    public function insert_article($title, $AJauthor, $pubDate){
+        $sql = "INSERT INTO articles_journals(title, AJauthor, pubDate) VALUES (?, ?, ?)";
+        $query = $this->db->query($sql, array($title, $AJauthor, $pubDate));
+        return $this->db->insert_id();
+
+    }
 }
