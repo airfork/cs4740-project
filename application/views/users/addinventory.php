@@ -4,11 +4,13 @@
         <h2>Add Items To Study Space</h2>
         <br>
         <?php
+        $this->load->helper('form');
+        $this->load->library('form_validation');
         $url = site_url('/');
         ?>
         <input type="hidden" value="<?php echo $url ?>" id="url">
         <!-- <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" id="csrf"/> -->
-        <form action="../study_spaces/add_inventory" method="POST">
+        <form action="<?php echo $url . 'addinventory'; ?>" method="POST">
             <div class="row">
                 <div class="input-field col s12 m4">
                     <select id="whichstudyspace" name="whichstudyspace">
@@ -27,16 +29,11 @@
                 </div>
                 <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" id="csrf"/>
             </div>
-            <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" id="csrf"/>
         </form>
-        <?php
-            $thing = array();
-            if(isset($_POST['add_button'])){
-                $chosenstudyspace = $_POST['whichstudyspace'];
-                $chosenitem = $_POST['whichitem'];
-                $thing = array('chosenstudyspace' => $chosenstudyspace, 'chosenitem' => $chosenitem);
-                $this->view('study_spaces/additem', array("chosenstudyspace"=>$chosenstudyspace, "chosenitem"=>$chosenitem));
-            }
+
+        <p class="text--center"><?php echo validation_errors() ?></p>
+        <?php $data = array("chosenstudyspace"=>$_POST['whichstudyspace'], "chosenitem"=>$_POST['whichitem']);
+            $this->view('study_spaces/additem', $data)
         ?>
         <script src="<?php echo base_url() . 'js/search.js'; ?>"></script>
     </div>

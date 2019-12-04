@@ -149,6 +149,13 @@ class Users extends CI_Controller {
     }
 
     public function add_inventory(){
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->form_validation->set_message('check_type', 'Please provide a valid type for the search');
+        $this->form_validation->set_rules(
+            'type', 'type', 'required|callback_check_type',
+            array('check_type', 'Please provide a valid type for the search.')
+        );
         $study_spacesadd = $this->studyspaces_model->getfull();
         $itemsadd = $this->studyspaces_model->getitems();
         $logged_in = $this->is_signed_in();
