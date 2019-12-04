@@ -11,7 +11,6 @@ class Users extends CI_Controller {
         $this->load->model('article_model');
         $this->load->model('space_model');
         $this->load->model('librarian_model');
-        $this->load->model('studyspaces_model');
         $this->load->helper('url_helper');
         $this->load->library('encryption');
         $this->web = base_url();
@@ -126,19 +125,19 @@ class Users extends CI_Controller {
     }
 
     public function reserve(){
-        $study_spaces = $this->studyspaces_model->get();
+        $study_spaces = $this->space_model->get();
         $logged_in = $this->is_signed_in();
         $csrf = array(
             'name' => $this->security->get_csrf_token_name(),
             'hash' => $this->security->get_csrf_hash()
         );
-        $data = array('study_spaces' => $study_spaces, 'logged_in' => $logged_in, 'csrf' => $csrf);
-        $this->load->view('users/reserve', $data);
+        $data = array('study_spaces' => $study_spaces, 'logged_in' => $logged_in, 'csrf' => $csrf, 'reserve' => true);
+        $this->load->view('study_spaces/index', $data);
     }
 
     public function remove_inventory(){
-        $study_spacesud = $this->studyspaces_model->getfull();
-        $items = $this->studyspaces_model->getitems();
+        $study_spacesud = $this->space_model->getfull();
+        $items = $this->space_model->getitems();
         $logged_in = $this->is_signed_in();
         $csrf = array(
             'name' => $this->security->get_csrf_token_name(),
@@ -156,8 +155,8 @@ class Users extends CI_Controller {
             'type', 'type', 'required|callback_check_type',
             array('check_type', 'Please provide a valid type for the search.')
         );
-        $study_spacesadd = $this->studyspaces_model->getfull();
-        $itemsadd = $this->studyspaces_model->getitems();
+        $study_spacesadd = $this->space_model->getfull();
+        $itemsadd = $this->space_model->getitems();
         $logged_in = $this->is_signed_in();
         $csrf = array(
             'name' => $this->security->get_csrf_token_name(),

@@ -43,7 +43,7 @@ class Article_model extends CI_Model {
 
     public function get_aj_hist($id, $download=FALSE) {
         // language=sql
-        $sql = "SELECT title, checkout_date, return_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ?";
+        $sql = "SELECT title, checkout_date, return_date FROM articles_journals NATURAL JOIN article_journal_checkout WHERE student_id = ? ORDER BY checkout_date DESC, return_date DESC";
         $query = $this->db->query($sql, array($id));
         if ($download) {
             $this->write_csv($query);

@@ -1,21 +1,26 @@
+<?php $this->view('headers/default_header') ?>
 <?php
-if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) { ?> -->
-    <h3>Study Spaces:</h3>
+$web = base_url();
+if (getenv('PRODUCTION')) {
+    $web = 'https://library4750.herokuapp.com/';
+} ?>
+<div class="container">
+    <h3>Available Study Spaces</h3>
+    <input type="hidden" value="<?php echo $web ?>" id="url">
+    <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" id="csrf"/>
     <table>
         <thead>
         <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Location</th>
-            <th>Space Inventory</th>
-            <th>Inventory Description</th>
         </tr>
         </thead>
         <tbody>
         <?php foreach ($study_spaces as $study_space): ?>
             <?php
             $already_reserved = false;
-            if($study_space['already_reserved'] != 0) {
+            if ($study_space['already_reserved'] != 0) {
                 $already_reserved = true;
             }
             if ($already_reserved) {
@@ -24,23 +29,20 @@ if (!empty($study_spaces)) { ?> <!-- if (!empty($study_spaces) and $logged_in) {
                 echo "<tr class=\"search-list\" onclick=\"reserve('{$study_space['space_id']}')\">";
             }
             ?>
-                <td>
-                    <?php echo $study_space['name']; ?>
-                </td>
-                <td>
-                    <?php echo $study_space['description']; ?>
-                </td>
-                <td>
-                    <?php echo $study_space['location']; ?>
-                </td>
-                <td>
-                    <?php echo $study_space['type']; ?>
-                </td>
-                <td>
-                    <?php echo $study_space['itemdescription']; ?>
-                </td>
+            <td>
+                <?php echo $study_space['name']; ?>
+            </td>
+            <td>
+                <?php echo $study_space['description']; ?>
+            </td>
+            <td>
+                <?php echo $study_space['location']; ?>
+            </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
-<?php } ?>
+</div>
+<script src="<?php echo $web . 'js/spaces.js'; ?>"></script>
+</body>
+</html>

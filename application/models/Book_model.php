@@ -43,7 +43,7 @@ class Book_model extends CI_Model {
 
     public function get_book_hist($id, $download=FALSE) {
         // language=sql
-        $sql = "SELECT title, checkout_date, return_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ? ";
+        $sql = "SELECT title, checkout_date, return_date FROM books NATURAL JOIN book_checkout bc WHERE books.isbn = bc.book_id AND student_id = ? ORDER BY checkout_date DESC, return_date DESC";
         $query = $this->db->query($sql, array($id));
         if ($download) {
             $this->write_csv($query);

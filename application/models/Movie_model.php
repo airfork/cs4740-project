@@ -42,7 +42,7 @@ class Movie_model extends CI_Model {
 
     public function get_movie_hist($id, $download=FALSE) {
         // language=sql
-        $sql = "SELECT title, checkout_date, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ?";
+        $sql = "SELECT title, checkout_date, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ? ORDER BY checkout_date DESC, return_date DESC";
         $query = $this->db->query($sql, array($id));
         if ($download) {
             $this->write_csv($query);

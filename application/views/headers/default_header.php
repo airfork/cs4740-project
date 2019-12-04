@@ -42,7 +42,7 @@
             <?php if (empty($searchpage)) { ?>
                 <li><a href="<?php echo $web.'search'; ?>">Search</a><li>
             <?php } ?>
-            <?php if ($logged_in) { ?>
+            <?php if ($logged_in && empty($reserve) && empty($librarian)) { ?>
                 <li><a href="<?php echo site_url('/users/reserve'); ?>">Reserve</a></li>
             <?php } ?>
             <?php if (!empty($librarian)) { ?>
