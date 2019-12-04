@@ -4,6 +4,9 @@
     $this->load->helper('form');
     $this->load->library('form_validation');
     $url = site_url('/register');
+    if (getenv('PRODUCTION')) {
+        $url = 'https://library4750.herokuapp.com/register';
+    }
     ?>
 
     <section class="align">
@@ -14,21 +17,12 @@
 
                 <div class="form__field">
                     <label for="login__email"><svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use></svg><span class="hidden">Email</span></label>
-                    <input id="login__email" type="text" name="email" class="form__input browser-default" placeholder="Email" value="<?php echo set_value('email') ?>" required>
+                    <input id="login__email" type="text" name="email" class="form__input browser-default" placeholder="User's Email" value="<?php echo set_value('email') ?>" required>
                 </div>
 
                 <div class="form__field">
                     <label for="login__name"><svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use></svg><span class="hidden">Name</span></label>
-                    <input id="login__name" type="text" name="name" class="form__input browser-default" placeholder="Username" value="<?php echo set_value('name') ?>" required>
-                </div>
-
-                <div class="form__field">
-                    <label for="login__password"><svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock"></use></svg><span class="hidden">Password</span></label>
-                    <input id="login__password" type="password" name="password" class="form__input browser-default" placeholder="Password" required>
-                </div>
-                <div class="form__field">
-                    <label for="confirm__password"><svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock"></use></svg><span class="hidden">Password</span></label>
-                    <input id="confirm__password" type="password" name="passconf" class="form__input browser-default" placeholder="Confirm Password" required>
+                    <input id="login__name" type="text" name="name" class="form__input browser-default" placeholder="User's Name" value="<?php echo set_value('name') ?>" required>
                 </div>
                 <div class="form__field">
                     <input type="submit" value="Register">

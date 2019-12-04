@@ -18,6 +18,18 @@ html, body {
     color: #5D576B;
 }
 
+#edit-btn, #save-btn {
+    background-color: #8884FF;
+}
+
+#history-btn {
+    background-color: #9e79ff;
+}
+
+#intro {
+    font-size: 1.2rem;
+}
+
 /* label color */
 .input-field label, textarea.materialize-textarea:focus:not([readonly])+label {
     color: #8884FF !important;
@@ -47,6 +59,11 @@ html, body {
 }
 
 .checkedOut {
+    background-color: rgba(242,242,242,0.5);
+    cursor: not-allowed;
+}
+
+.alreadyReserved{
     background-color: rgba(242,242,242,0.5);
     cursor: not-allowed;
 }

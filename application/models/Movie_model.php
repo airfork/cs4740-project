@@ -5,7 +5,13 @@ class Movie_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get($slug=false) {
+    public function get($slug) {
+        if(strtolower($slug) == 'all') {
+            $sql = "CALL SelectAllMovies()";
+            $query = $this->db->query($sql);
+            mysqli_next_result($this->db->conn_id);
+            return $query->result_array();
+        }
         $search = '%'.$slug.'%';
         $sql = "SELECT m.director, m.title, m.releaseDate,
                 (SELECT count(title) FROM movie_checkout WHERE title = m.title AND director = m.director AND return_date IS NULL) AS checked_out
@@ -32,5 +38,32 @@ class Movie_model extends CI_Model {
         // language=sql
         $sql = "INSERT INTO movie_checkout (student_id, title, director) VALUES (?, ?, ?)";
         $this->db->query($sql, array($id, $title, $director));
+    }
+
+    public function get_movie_hist($id, $download=FALSE) {
+        // language=sql
+        $sql = "SELECT title, checkout_date, return_date FROM movies NATURAL JOIN movie_checkout WHERE student_id = ? ORDER BY checkout_date DESC, return_date DESC";
+        $query = $this->db->query($sql, array($id));
+        if ($download) {
+            $this->write_csv($query);
+        }
+        return $query->result_array();
+    }
+
+    public function get_movie_deadline($id) {
+        // language=sql
+        $sql = "SELECT title FROM movies NATURAL JOIN movie_checkout WHERE student_id = ? AND return_date IS NULL";
+        $query = $this->db->query($sql, array($id));
+        return $query->result_array();
+    }
+
+    private function write_csv($query) {
+        $delimiter = ",";
+        $newline = "\r\n";
+        $enclosure = '"';
+
+        $this->load->helper('file');
+        $this->load->dbutil();
+        write_file('movie_checkout.csv', $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure));
     }
 }

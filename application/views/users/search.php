@@ -6,10 +6,14 @@
         <?php
         $this->load->helper('form');
         $this->load->library('form_validation');
-        $url = site_url('/');
+        $web = base_url();
+        if (getenv('PRODUCTION')) {
+            $web = 'https://library4750.herokuapp.com/';
+        }
+        $url = $web;
         ?>
         <input type="hidden" value="<?php echo $url ?>" id="url">
-        <form action="<?php echo $url.'search'; ?>" method="post">
+        <form action="<?php echo $url . 'search'; ?>" method="post">
             <div class="row">
                 <div class="input-field col s12 m4">
                     <select id="type" name="type">
@@ -19,14 +23,14 @@
                                     <option value="movies">Movies</option>
                                     <option value="books">Books</option>
                                     <option value="articles">Articles/Journals</option>
-                                <?php break;
+                                    <?php break;
                                 case 'articles': ?>
                                     <option value="articles">Articles/Journals</option>
                                     <option value="books">Books</option>
                                     <option value="movies">Movies</option>
-                                <?php break;
+                                    <?php break;
                                 default: ?>
-                                <?php break;
+                                    <?php break;
                             }
                         } else { ?>
                             <option value="books">Books</option>
@@ -45,7 +49,7 @@
                         <i class="material-icons right">search</i>
                     </button>
                 </div>
-                <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" id="csrf"/>
+                <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" id="csrf"/>
             </div>
         </form>
         <p class="text--center"><?php echo validation_errors() ?></p>
@@ -53,6 +57,6 @@
         <?php $this->view('movies/search_results'); ?>
         <?php $this->view('articles/search_results'); ?>
     </div>
-    <script src="<?php echo base_url() . 'js/search.js'; ?>"></script>
+    <script src="<?php echo $web . 'js/search.js'; ?>"></script>
 </body>
 </html>
