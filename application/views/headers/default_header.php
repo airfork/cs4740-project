@@ -43,7 +43,7 @@
                 <li><a href="<?php echo $web.'search'; ?>">Search</a><li>
             <?php } ?>
             <?php if ($logged_in && empty($reserve) && empty($librarian)) { ?>
-                <li><a href="<?php echo site_url('/users/reserve'); ?>">Reserve</a></li>
+                <li><a href="<?php echo $web . 'users/reserve'; ?>">Reserve</a></li>
             <?php } ?>
             <?php if (!$logged_in) { ?>
                 <li><a href="<?php echo $web.'login'; ?>">Login</a></li>
